@@ -1,0 +1,272 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG_VERSION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 204
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 76
+    END
+
+    IDD_FORMVIEW_MENU_EDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 345
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 350
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_VERSION DIALOGEX 0, 0, 211, 83
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "バージョン情報"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
+    LTEXT           "シェル拡張メニューエディタ Ver.0.04",IDC_STATIC,41,7,105,8
+    LTEXT           "Copyright (C) 2005-2009 Claybird. All Rights Reserved.",IDC_STATIC,41,15,163,8
+    LTEXT           "ShellExtDLL.dll Ver.1.4.0-1.5.0用(LhaForge Ver.1.5.0付属品相当)",IDC_STATIC,7,33,186,8
+    LTEXT           "配布元:泥巣 http://claybird.sakura.ne.jp/\nmailto:claybird.without.wing@gmail.com\nバグ、感想、要望等は上記連絡先まで。",IDC_STATIC,7,49,139,27
+    DEFPUSHBUTTON   "OK",IDOK,154,62,50,14
+END
+
+IDD_FORMVIEW_MENU_EDIT DIALOG  0, 0, 350, 357
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "圧縮メニュー",IDC_STATIC,7,7,338,162
+    LTEXT           "表示されるメニュー",IDC_STATIC,17,21,56,8
+    CONTROL         "List1",IDC_LIST_MENU_ADDED,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,17,33,134,121
+    LTEXT           "追加できるメニュー",IDC_STATIC,189,21,56,8
+    CONTROL         "List1",IDC_LIST_MENU_SOURCE,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,195,33,134,121
+    PUSHBUTTON      "<<追加",IDC_BUTTON_ADD,157,55,33,14
+    PUSHBUTTON      "削除>>",IDC_BUTTON_DELETE,157,73,33,14
+    PUSHBUTTON      "↑上へ",IDC_BUTTON_MOVEUP,157,99,33,14
+    PUSHBUTTON      "↓下へ",IDC_BUTTON_MOVEDOWN,157,116,33,14
+    PUSHBUTTON      "初期化",IDC_BUTTON_RESET,157,140,33,14
+    GROUPBOX        "ユーザー定義メニュー",IDC_STATIC,7,177,338,154
+    CONTROL         "List1",IDC_LIST_USERMENU,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,16,193,134,124
+    PUSHBUTTON      "追加",IDC_BUTTON_ADD_USERMENU,156,192,33,14
+    PUSHBUTTON      "削除",IDC_BUTTON_DELETE_USERMENU,156,211,33,14
+    PUSHBUTTON      "↑上へ",IDC_BUTTON_MOVEUP_USERMENU,156,249,33,14
+    PUSHBUTTON      "↓下へ",IDC_BUTTON_MOVEDOWN_USERMENU,156,267,33,14
+    GROUPBOX        "項目設定",IDC_STATIC,202,187,134,136
+    LTEXT           "キャプション",IDC_STATIC,209,199,36,8
+    EDITTEXT        IDC_EDIT_USERMENU_CAPTION,215,212,77,14,ES_AUTOHSCROLL
+    LTEXT           "パラメータ",IDC_STATIC,209,232,31,8
+    EDITTEXT        IDC_EDIT_USERMENU_PARAM,215,245,77,14,ES_AUTOHSCROLL
+    LTEXT           "「/b2e /c」「/xacrett /e」等、コマンドラインパラメータを記述",IDC_STATIC,207,265,122,19
+    CONTROL         "右クリックで表示",IDC_CHECK_USERMENU_SHELL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,288,65,10
+    CONTROL         "右ドラッグで表示",IDC_CHECK_USERMENU_DRAG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,301,65,10
+    PUSHBUTTON      "バージョン情報",IDC_BUTTON_VERSION,7,336,50,14
+    PUSHBUTTON      "OK",IDOK,231,336,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,295,336,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "manifest.xml"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,0,0
+ PRODUCTVERSION 0,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "MenuEditor"
+            VALUE "FileVersion", "0.03"
+            VALUE "InternalName", "MenuEditor"
+            VALUE "LegalCopyright", "Copyright (C) 2006-2008 Claybird <claybird.without.wing@gmail.com>"
+            VALUE "OriginalFilename", "MenuEditor.exe"
+            VALUE "ProductName", "MenuEditor"
+            VALUE "ProductVersion", "0.03"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_CAPTION_EXTRACT_NORMAL "通常の場所に解凍(&A)"
+    IDS_MENU_CAPTION_EXTRACT_DESKTOP "デスクトップに解凍(&D)"
+    IDS_MENU_CAPTION_EXTRACT_SAME "同じ場所に解凍(&S)"
+    IDS_MENU_CAPTION_EXTRACT_TARGET "指定場所に解凍(&F)"
+    IDS_MENU_ITEM_CAPTION_LZH "LZH"
+    IDS_MENU_ITEM_CAPTION_LZH_SFX "LZH自己解凍"
+    IDS_MENU_ITEM_CAPTION_ZIP "ZIP"
+    IDS_MENU_ITEM_CAPTION_ZIP_SFX "ZIP自己解凍"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS "ZIPパスワード付き"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS_SFX "ZIPパスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_CAB "CAB"
+    IDS_MENU_ITEM_CAPTION_CAB_SFX "CAB自己解凍"
+    IDS_MENU_ITEM_CAPTION_7Z "7z"
+    IDS_MENU_ITEM_CAPTION_7Z_PASS "7zパスワード付き"
+    IDS_MENU_ITEM_CAPTION_7Z_SFX "7z自己解凍"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_TAR "TAR"
+    IDS_MENU_ITEM_CAPTION_GZ "GZip"
+    IDS_MENU_ITEM_CAPTION_BZ2 "BZip2"
+    IDS_MENU_ITEM_CAPTION_TGZ "TAR+GZip圧縮"
+    IDS_MENU_ITEM_CAPTION_TBZ "TAR+BZip2圧縮"
+    IDS_MENU_ITEM_CAPTION_JACK "JACK分割"
+    IDS_MENU_ITEM_CAPTION_JACK_SFX "JACK分割自己解凍"
+    IDS_MENU_CAPTION_LIST   "LhaForgeで閲覧(&L)"
+    IDS_MENU_ITEM_CAPTION_XZ "XZ"
+    IDS_MENU_ITEM_CAPTION_LZMA "LZMA"
+    IDS_MENU_ITEM_CAPTION_YZ1 "YZ1"
+    IDS_MENU_ITEM_CAPTION_YZ1_PASS "YZ1パスワード付き"
+    IDS_MENU_ITEM_CAPTION_YZ1_PASS_SFX "YZ1パスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_YZ1_SFX "YZ1自己解凍"
+    IDS_MENU_ITEM_CAPTION_YZ1_PUB_PASS "YZ1公開鍵方式パスワード付き"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_YZ1_PUB_PASS_SFX "YZ1公開鍵方式パスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_HKI "HKI"
+    IDS_MENU_ITEM_CAPTION_BZA "BZA"
+    IDS_MENU_ITEM_CAPTION_GZA "GZA"
+    IDS_MENU_ITEM_CAPTION_ISH "ISH変換"
+    IDS_MENU_ITEM_CAPTION_UUE "UUE変換"
+    IDS_MENU_ITEM_CAPTION_ZIP_SPLIT "ZIP分割"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS_SPLIT "ZIPパスワード付き分割"
+    IDS_MENU_ITEM_CAPTION_7Z_SPLIT "7z分割"
+    IDS_MENU_ITEM_CAPTION_7Z_PASS_SPLIT "7zパスワード付き分割"
+    IDS_MENU_ITEM_CAPTION_TAR_RELATED "TAR系"
+    IDS_MENU_ITEM_CAPTION_HKI_PASS "HKIパスワード付き"
+    IDS_MENU_ITEM_CAPTION_HKI_SFX "HKI自己解凍"
+    IDS_MENU_ITEM_CAPTION_BGA "BZA/GZA"
+    IDS_MENU_ITEM_CAPTION_BZA_SFX "BZA自己解凍"
+    IDS_MENU_ITEM_CAPTION_GZA_SFX "GZA自己解凍"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_AISH "ISH/UUE変換"
+    IDR_MAINFRAME           "LhaForge 右クリック圧縮メニュー 編集プログラム"
+    IDS_MENU_CAPTION_LIST_XACRETT "閲覧"
+    IDS_MENU_ITEM_CAPTION_TXZ "TAR+XZ圧縮"
+    IDS_MENU_ITEM_CAPTION_COMPRESS_B2E "B2Eで圧縮"
+    IDR_MAINFRAME_USERCOMMON "LhaForge 右クリック圧縮メニュー 編集プログラム[全ユーザー共通]"
+    IDS_MENU_ITEM_CAPTION_TLZ "TAR+LZMA圧縮"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

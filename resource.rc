@@ -1,0 +1,197 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,6,0,0
+ PRODUCTVERSION 1,6,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "LhaForge用シェル右クリック拡張モジュール"
+            VALUE "CompanyName", "Claybird"
+            VALUE "FileDescription", "LhaForge_ShellExtDLL"
+            VALUE "FileVersion", "1, 6, 0, 0"
+            VALUE "InternalName", "ShellExtDLL"
+            VALUE "LegalCopyright", "Copyright (C) 2005-2010 Claybird"
+            VALUE "OriginalFilename", "ShellExtDLL.dll"
+            VALUE "ProductName", "LhaForge"
+            VALUE "ProductVersion", "1.6.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_DEFAULT_MENU_CAPTION "使用不可"
+    IDS_DEFAULT_STATUS_CAPTION "ファイルをLhaForgeで処理します"
+    IDS_MENU_CAPTION_B2E_COMPRESS_POPUP "形式を選択して圧縮"
+    IDS_MENU_CAPTION_COMPRESS "LhaForgeで圧縮(&Z)"
+    IDS_ERROR_MSG_PARAM_OVERFLOW "ファイル名の合計の長さが限界を超えました"
+    IDS_ERROR_MSG_FAILURE_EXECUTE "コマンドの呼び出しに失敗しました。詳細情報:\n"
+    IDS_PROGRAM_NAME        "LhaForge"
+    IDS_MENU_CAPTION_EXTRACT "LhaForgeで解凍(&X)"
+    IDS_MENU_CAPTION_COMPRESS_DRAG "ここに圧縮(&Z)"
+    IDS_MENU_CAPTION_EXTRACT_DRAG "ここに解凍(&X)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_CAPTION_EXTRACT_NORMAL "通常の場所に解凍(&A)"
+    IDS_MENU_CAPTION_EXTRACT_DESKTOP "デスクトップに解凍(&D)"
+    IDS_MENU_CAPTION_EXTRACT_SAME "同じ場所に解凍(&S)"
+    IDS_MENU_CAPTION_EXTRACT_TARGET "指定場所に解凍(&F)"
+    IDS_INPUT_TARGET_FOLDER "出力先フォルダを選択してください。"
+    IDS_MENU_ITEM_CAPTION_LZH "LZH"
+    IDS_MENU_ITEM_CAPTION_LZH_SFX "LZH自己解凍"
+    IDS_MENU_ITEM_CAPTION_ZIP "ZIP"
+    IDS_MENU_ITEM_CAPTION_ZIP_SFX "ZIP自己解凍"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS "ZIPパスワード付き"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS_SFX "ZIPパスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_CAB "CAB"
+    IDS_MENU_ITEM_CAPTION_CAB_SFX "CAB自己解凍"
+    IDS_MENU_ITEM_CAPTION_7Z "7z"
+    IDS_MENU_ITEM_CAPTION_7Z_PASS "7zパスワード付き"
+    IDS_MENU_ITEM_CAPTION_7Z_SFX "7z自己解凍"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_TAR "TAR"
+    IDS_MENU_ITEM_CAPTION_GZ "GZip"
+    IDS_MENU_ITEM_CAPTION_BZ2 "BZip2"
+    IDS_MENU_ITEM_CAPTION_TGZ "TAR+GZip圧縮"
+    IDS_MENU_ITEM_CAPTION_TBZ "TAR+BZip2圧縮"
+    IDS_MENU_ITEM_CAPTION_JACK "JACK分割"
+    IDS_MENU_ITEM_CAPTION_JACK_SFX "JACK分割自己解凍"
+    IDS_MENU_CAPTION_LIST   "LhaForgeで閲覧(&L)"
+    IDS_MENU_CAPTION_OPERATION "LhaForgeで操作(&O)"
+    IDS_MENU_ITEM_CAPTION_XZ "XZ"
+    IDS_MENU_ITEM_CAPTION_LZMA "LZMA"
+    IDS_MENU_ITEM_CAPTION_YZ1 "YZ1"
+    IDS_MENU_ITEM_CAPTION_YZ1_PASS "YZ1パスワード付き"
+    IDS_MENU_ITEM_CAPTION_YZ1_PASS_SFX "YZ1パスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_YZ1_SFX "YZ1自己解凍"
+    IDS_MENU_ITEM_CAPTION_YZ1_PUB_PASS "YZ1公開鍵方式パスワード付き"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_YZ1_PUB_PASS_SFX "YZ1公開鍵方式パスワード付き自己解凍"
+    IDS_MENU_ITEM_CAPTION_HKI "HKI"
+    IDS_MENU_ITEM_CAPTION_BZA "BZA"
+    IDS_MENU_ITEM_CAPTION_GZA "GZA"
+    IDS_MENU_ITEM_CAPTION_ISH "ISH変換"
+    IDS_MENU_ITEM_CAPTION_UUE "UUE変換"
+    IDS_MENU_ITEM_CAPTION_ZIP_SPLIT "ZIP分割"
+    IDS_MENU_ITEM_CAPTION_ZIP_PASS_SPLIT "ZIPパスワード付き分割"
+    IDS_MENU_ITEM_CAPTION_7Z_SPLIT "7z分割"
+    IDS_MENU_ITEM_CAPTION_7Z_PASS_SPLIT "7zパスワード付き分割"
+    IDS_MENU_ITEM_CAPTION_TAR_RELATED "TAR系"
+    IDS_MENU_ITEM_CAPTION_HKI_PASS "HKIパスワード付き"
+    IDS_MENU_ITEM_CAPTION_HKI_SFX "HKI自己解凍"
+    IDS_MENU_ITEM_CAPTION_BGA "BZA/GZA"
+    IDS_MENU_ITEM_CAPTION_BZA_SFX "BZA自己解凍"
+    IDS_MENU_ITEM_CAPTION_GZA_SFX "GZA自己解凍"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ITEM_CAPTION_AISH "ISH/UUE変換"
+    IDS_MENU_CAPTION_XACRETT "Lha&Forge+XacRett.DLL"
+    IDS_MENU_CAPTION_XACRETT_DRAG "XacRett.DLLでここに解凍"
+    IDS_MENU_CAPTION_LIST_XACRETT "閲覧(&L)"
+    IDS_MENU_CAPTION_TEST_ARCHIVE "LhaForgeで検査(&T)"
+    IDS_MENU_ITEM_CAPTION_TXZ "TAR+XZ圧縮"
+    IDS_MENU_CAPTION_LHAFORGE "LhaForge"
+    IDS_MENU_ITEM_CAPTION_COMPRESS_B2E "B2Eで圧縮"
+    IDS_MENU_CAPTION_B2E    "LhaForge+&B2E32.dll"
+    IDS_MENU_ITEM_CAPTION_TLZ "TAR+LZMA圧縮"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
