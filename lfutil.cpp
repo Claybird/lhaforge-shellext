@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "lfutil.h"
 
 bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSubMenu,WORD wID)
@@ -9,11 +9,11 @@ bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSub
 
 	if(lpszCaption){
 		if(hSubMenu){
-			//ƒTƒuƒƒjƒ…[•t
+			//ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ä»˜
 			mii.fMask = MIIM_SUBMENU | MIIM_STRING;
 			mii.hSubMenu=hSubMenu;
 		}else{
-			//’P“Æ€–Ú
+			//å˜ç‹¬é …ç›®
 			mii.fMask = MIIM_STRING;
 		}
 
@@ -25,13 +25,13 @@ bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSub
 		mii.dwTypeData=const_cast<LPTSTR>(lpszCaption);
 		mii.cch=(UINT)_tcslen(lpszCaption);
 
-		//TRUE:indexMenu‚ÍˆÊ’u‚ğ•\‚í‚·
+		//TRUE:indexMenuã¯ä½ç½®ã‚’è¡¨ã‚ã™
 		if(::InsertMenuItem(hMenu, indexMenu, TRUE,&mii)){
 			return true;
 		}
 
-		//‘}“ü‚É¸”s‚µ‚½
-		//MIIM_STRING‚ğŠO‚µAMFT_STRING‚ğ’Ç‰Á‚·‚é
+		//æŒ¿å…¥ã«å¤±æ•—ã—ãŸ
+		//MIIM_STRINGã‚’å¤–ã—ã€MFT_STRINGã‚’è¿½åŠ ã™ã‚‹
 		mii.fMask&=~MIIM_STRING;
 		mii.fMask|=MIIM_FTYPE;	//MIIM_TYPE
 		mii.fType=MFT_STRING;
@@ -42,7 +42,7 @@ bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSub
 		return false;
 	}else{
 	//----------------------------------------
-	//Separator‚ğ’Ç‰Á‚Ìê‡AlpszCaption‚ÍNULL
+	//Separatorã‚’è¿½åŠ ã®å ´åˆã€lpszCaptionã¯NULL
 	//----------------------------------------
 		mii.fMask = MIIM_TYPE;
 		mii.fType=MFT_SEPARATOR;
@@ -69,7 +69,7 @@ bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSub
 	}
 }
 
-//ƒtƒ@ƒCƒ‹‚Éˆês‘‚İ
+//ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¸€è¡Œæ›¸è¾¼ã¿
 bool UtilWriteLine(HANDLE hFile,LPCTSTR lpszText)
 {
 	if(INVALID_HANDLE_VALUE==hFile)return false;
@@ -81,7 +81,7 @@ bool UtilWriteLine(HANDLE hFile,LPCTSTR lpszText)
 	return true;
 }
 
-//INI‚Éw’è‚³‚ê‚½ƒZƒNƒVƒ‡ƒ“‚ª‚ ‚é‚È‚çtrue‚ğ•Ô‚·
+//INIã«æŒ‡å®šã•ã‚ŒãŸã‚»ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹ãªã‚‰trueã‚’è¿”ã™
 bool UtilCheckINISectionExists(LPCTSTR lpAppName,LPCTSTR lpFileName)
 {
 	TCHAR szBuffer[10];
@@ -89,34 +89,34 @@ bool UtilCheckINISectionExists(LPCTSTR lpAppName,LPCTSTR lpFileName)
 	return dwRead>0;
 }
 
-//ƒƒjƒ…[\¬‚ğ“Ç‚İ‚Ş(B2Eƒƒjƒ…[—p)
+//ãƒ¡ãƒ‹ãƒ¥ãƒ¼æ§‹æˆã‚’èª­ã¿è¾¼ã‚€(B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”¨)
 bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CString> >& r_MenuArr)
 {
-//À‘•‚ª–Ê“|‚È‚Ì‚ÅAUNICODE”Å‚Ì‚İƒR[ƒh‚ğ—pˆÓ‚µ‚Ä‚¢‚éB
-//ANSI/SJIS”Å‚ğÀ‘•‚·‚é‚É‚ÍA•¶šƒR[ƒh•ÏŠ·‚ğ‹²‚Ş‚©A‚à‚µ‚­‚Íƒƒjƒ…[’è‹`ƒtƒ@ƒCƒ‹‚Ì•¶šƒR[ƒh‚ğ•ÏŠ·‚µ‚Ä‚¨‚­‚±‚Æ
+//å®Ÿè£…ãŒé¢å€’ãªã®ã§ã€UNICODEç‰ˆã®ã¿ã‚³ãƒ¼ãƒ‰ã‚’ç”¨æ„ã—ã¦ã„ã‚‹ã€‚
+//ANSI/SJISç‰ˆã‚’å®Ÿè£…ã™ã‚‹ã«ã¯ã€æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’æŒŸã‚€ã‹ã€ã‚‚ã—ãã¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã—ã¦ãŠãã“ã¨
 #if !defined(_UNICODE)&&!defined(UNICODE)
 #error "UtilReadMenuDefinitionFile() : Needs implementation for ANSI/S_JIS."
 #endif
 
 	/*
-	“ü—Íƒtƒ@ƒCƒ‹Œ`®
-	•¶šƒR[ƒh:
-		BOM–³‚µUTF-16LE
-	ƒƒjƒ…[’è‹`:[ƒgƒbƒv](\t[Œ`®–¼])+\n
-		ƒgƒbƒvƒƒjƒ…[‚ÌƒLƒƒƒvƒVƒ‡ƒ“‚É‘±‚¯‚ÄŒ`®–¼‚ğ­‚È‚­‚Æ‚àˆê‚Â‚Ìƒ^ƒu‚Å‹æØ‚Á‚Ä‹Lq‚·‚éB
-		‚Ü‚½A‰üs‚Åƒƒjƒ…[’è‹`‚ª‹æØ‚ç‚ê‚éB
+	å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼
+	æ–‡å­—ã‚³ãƒ¼ãƒ‰:
+		BOMç„¡ã—UTF-16LE
+	ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®šç¾©:[ãƒˆãƒƒãƒ—](\t[å½¢å¼å])+\n
+		ãƒˆãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³ã«ç¶šã‘ã¦å½¢å¼åã‚’å°‘ãªãã¨ã‚‚ä¸€ã¤ã®ã‚¿ãƒ–ã§åŒºåˆ‡ã£ã¦è¨˜è¿°ã™ã‚‹ã€‚
+		ã¾ãŸã€æ”¹è¡Œã§ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®šç¾©ãŒåŒºåˆ‡ã‚‰ã‚Œã‚‹ã€‚
 		(ex.)
 		cabinet	arc1	arc2
 		7z	PPMd	Deflate
-	o—ÍŒ`®:
-		CString‚Ì“ñd”z—ñ‚ÉŒ‹‰Ê‚ªŠi”[‚³‚ê‚éB
-		std::vector<CString>‚É‚Íˆê‚Â‚Ìƒƒjƒ…[ŠK‘w‚ªŠi”[‚³‚ê‚éB
-		ã‚Ì—á‚Å‚Í["cabinet","arc1","arc2"]‚Æ‚È‚éB‚±‚Ì‚¤‚¿Aˆê‚Â–Ú‚ªƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ìª–{‚ÌƒLƒƒƒvƒVƒ‡ƒ“‚Æ‚È‚éB
+	å‡ºåŠ›å½¢å¼:
+		CStringã®äºŒé‡é…åˆ—ã«çµæœãŒæ ¼ç´ã•ã‚Œã‚‹ã€‚
+		std::vector<CString>ã«ã¯ä¸€ã¤ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼éšå±¤ãŒæ ¼ç´ã•ã‚Œã‚‹ã€‚
+		ä¸Šã®ä¾‹ã§ã¯["cabinet","arc1","arc2"]ã¨ãªã‚‹ã€‚ã“ã®ã†ã¡ã€ä¸€ã¤ç›®ãŒãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æ ¹æœ¬ã®ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³ã¨ãªã‚‹ã€‚
 
 	*/
 
 
-	//“ü—Íƒtƒ@ƒCƒ‹–¼ƒ`ƒFƒbƒN
+	//å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«åãƒã‚§ãƒƒã‚¯
 	ASSERT(lpFileName);
 	if(!lpFileName)return false;
 	if(!PathFileExists(lpFileName))return false;
@@ -124,23 +124,23 @@ bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CStri
 	HANDLE hFile=CreateFile(lpFileName,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
 	if(INVALID_HANDLE_VALUE==hFile)return false;
 
-	//4GB‰z‚¦ƒtƒ@ƒCƒ‹‚Íˆµ‚í‚È‚¢
+	//4GBè¶Šãˆãƒ•ã‚¡ã‚¤ãƒ«ã¯æ‰±ã‚ãªã„
 	const DWORD dwSize=GetFileSize(hFile,NULL);
 	std::vector<BYTE> cReadBuffer;
 	cReadBuffer.resize(dwSize+2);
 	DWORD dwRead;
-	//---“Ç‚İ‚İ
+	//---èª­ã¿è¾¼ã¿
 	if(!ReadFile(hFile,&cReadBuffer[0],dwSize,&dwRead,NULL)||dwSize!=dwRead){
 		CloseHandle(hFile);
 		return false;
 	}
 	CloseHandle(hFile);
 
-	//I’[•¶š’Ç‰Á
+	//çµ‚ç«¯æ–‡å­—è¿½åŠ 
 	*((LPWSTR)&cReadBuffer[dwSize])=L'\0';
 
 
-	//‰ğß‚ğs‚¤
+	//è§£é‡ˆã‚’è¡Œã†
 	LPCTSTR lpC=(LPCTSTR)&cReadBuffer[0];
 	CString strTemp;
 	std::vector<CString> strArr;
@@ -148,7 +148,7 @@ bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CStri
 	r_MenuArr.clear();
 	for(;*lpC!=_T('\0');lpC++){
 		switch(*lpC){
-		case _T('\t'):	//ƒƒjƒ…[€–Ú‚Ì‹æØ‚è
+		case _T('\t'):	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®ã®åŒºåˆ‡ã‚Š
 			if(!strTemp.IsEmpty()){
 				strArr.push_back(strTemp);
 				strTemp.Empty();
@@ -161,7 +161,7 @@ bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CStri
 				strTemp.Empty();
 			}
 			if(!strArr.empty()){
-				//ƒƒjƒ…[‚É’Ç‰Á
+				//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«è¿½åŠ 
 				r_MenuArr.push_back(strArr);
 				strArr.clear();
 			}
@@ -172,7 +172,7 @@ bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CStri
 		}
 	}
 
-	//ÅŒã‚Ìˆ—
+	//æœ€å¾Œã®å‡¦ç†
 	if(!strTemp.IsEmpty()){
 		strArr.push_back(strTemp);
 	}

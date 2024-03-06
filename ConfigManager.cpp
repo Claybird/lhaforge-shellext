@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "resource.h"
 #include "MenuData.h"
 #include "ConfigManager.h"
@@ -7,7 +7,7 @@
 
 void CConfigManager::LoadConfig(BOOL bRightDrag,BOOL bForceExtra)
 {
-	//•Ï”‰Šú‰»
+	//å¤‰æ•°åˆæœŸåŒ–
 	ZeroMemory(&ShellMenu,sizeof(ShellMenu));
 	ZeroMemory(&DragMenu,sizeof(DragMenu));
 	bUnderSubMenu=false;
@@ -18,64 +18,64 @@ void CConfigManager::LoadConfig(BOOL bRightDrag,BOOL bForceExtra)
 	dprintf(_T("Common-> IniPath=%s\n"),(LPCTSTR)strIniPath);
 
 //---------------------------------------------------
-	//Šg’£ƒƒjƒ…[‚ğ—˜—p‚·‚é‚©‚Ç‚¤‚©
+	//æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’åˆ©ç”¨ã™ã‚‹ã‹ã©ã†ã‹
 	bExtraMenu = bForceExtra || GetPrivateProfileInt(_T("ExtraMenu"),_T("ForceExtraMenu"),0,strIniPath);
 
 	if(bRightDrag){
 		//--------------------
-		// ‰Eƒhƒ‰ƒbƒOƒƒjƒ…[
+		// å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		//--------------------
-		//ˆ³k
+		//åœ§ç¸®
 		DragMenu.bCompress=GetPrivateProfileInt(_T("DragMenu"),_T("Compress"),1,strIniPath);
-		//ˆ³k
+		//åœ§ç¸®
 		DragMenu.bExtract=GetPrivateProfileInt(_T("DragMenu"),_T("Extract"),1,strIniPath);
 		//------------------------------
-		// ƒTƒuƒƒjƒ…[ˆÈ‰º‚É•ú‚è‚ŞH
+		// ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ä»¥ä¸‹ã«æ”¾ã‚Šè¾¼ã‚€ï¼Ÿ
 		//------------------------------
-		//—LŒøE–³Œø
+		//æœ‰åŠ¹ãƒ»ç„¡åŠ¹
 		bUnderSubMenu=GetPrivateProfileInt(_T("DragMenu"),_T("UnderSubMenu"),0,strIniPath);
 	}else{
 		//--------------------
-		// ‰EƒNƒŠƒbƒNƒƒjƒ…[
+		// å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		//--------------------
-		//ˆ³k
+		//åœ§ç¸®
 		ShellMenu.bCompress=GetPrivateProfileInt(_T("ShellMenu"),_T("Compress"),1,strIniPath);
-		//‰ğ“€
+		//è§£å‡
 		ShellMenu.bExtract=GetPrivateProfileInt(_T("ShellMenu"),_T("Extract"),1,strIniPath);
-		//‰{——
+		//é–²è¦§
 		ShellMenu.bList=GetPrivateProfileInt(_T("ShellMenu"),_T("List"),1,strIniPath);
-		//‘ŒÉŒŸ¸
+		//æ›¸åº«æ¤œæŸ»
 		ShellMenu.bTestArchive=GetPrivateProfileInt(_T("ShellMenu"),_T("Test"),1,strIniPath);
 		//------------------------------
-		// ƒTƒuƒƒjƒ…[ˆÈ‰º‚É•ú‚è‚ŞH
+		// ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ä»¥ä¸‹ã«æ”¾ã‚Šè¾¼ã‚€ï¼Ÿ
 		//------------------------------
-		//—LŒøE–³Œø
+		//æœ‰åŠ¹ãƒ»ç„¡åŠ¹
 		bUnderSubMenu=GetPrivateProfileInt(_T("ShellMenu"),_T("UnderSubMenu"),0,strIniPath);
 	}
 
 	if(!bExtraMenu&&(ShellMenu.bCompress||DragMenu.bCompress)){
-		//ƒJƒXƒ^ƒ€ƒƒjƒ…[
+		//ã‚«ã‚¹ã‚¿ãƒ ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		bCustomCompress=GetPrivateProfileInt(_T("CustomMenu"),_T("UseCustom"),0,strIniPath);
-		if(bCustomCompress){	//ƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ƒƒjƒ…[‚ğg‚¤
+		if(bCustomCompress){	//ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã•ã‚ŒãŸãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’ä½¿ã†
 			GetPrivateProfileString(_T("CustomMenu"),_T("Arrange"),USER_MENU_DEFAULT,szCustomCompress,_MAX_PATH,strIniPath);
 		}
 	}
 
 	//-----------------
-	// XacRettƒƒjƒ…[
+	// XacRettãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	//-----------------
-	//—LŒøE–³Œø
+	//æœ‰åŠ¹ãƒ»ç„¡åŠ¹
 	bXacRett=GetPrivateProfileInt(_T("XacRett"),_T("EnableShellMenu"),0,strIniPath);
 	//-----------------
-	// B2Eƒƒjƒ…[
+	// B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	//-----------------
-	//—LŒøE–³Œø
+	//æœ‰åŠ¹ãƒ»ç„¡åŠ¹
 	bB2E=GetPrivateProfileInt(_T("B2E"),_T("EnableShellMenu"),0,strIniPath);
 
 	//----------------------
-	// ƒ†[ƒU[’è‹`ƒƒjƒ…[
+	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	//----------------------
-	//—LŒøE–³Œø
+	//æœ‰åŠ¹ãƒ»ç„¡åŠ¹
 	UserMenuArray.clear();
 	UINT iIndex=0;
 	for(;;iIndex++){
@@ -85,21 +85,21 @@ void CConfigManager::LoadConfig(BOOL bRightDrag,BOOL bForceExtra)
 			break;
 		}
 		CUserMenuItem umi={0};
-		//ƒLƒƒƒvƒVƒ‡ƒ“
+		//ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
 		GetPrivateProfileString(strSectionName,_T("Caption"),strSectionName,umi.Caption,COUNTOF(umi.Caption)-1,strIniPath);
-		//ƒpƒ‰ƒ[ƒ^
+		//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		GetPrivateProfileString(strSectionName,_T("Param"),_T(""),umi.Param,COUNTOF(umi.Param)-1,strIniPath);
-		//‰EƒNƒŠƒbƒN‚Å•\¦?
+		//å³ã‚¯ãƒªãƒƒã‚¯ã§è¡¨ç¤º?
 		umi.bShellMenu=GetPrivateProfileInt(strSectionName,_T("ShellMenu"),TRUE,strIniPath);
-		//‰Eƒhƒ‰ƒbƒO‚Å•\¦H
+		//å³ãƒ‰ãƒ©ãƒƒã‚°ã§è¡¨ç¤ºï¼Ÿ
 		umi.bDragMenu=GetPrivateProfileInt(strSectionName,_T("DragMenu"),TRUE,strIniPath);
-		//•\¦‚·‚é‚¾‚¯ƒ[ƒh
+		//è¡¨ç¤ºã™ã‚‹æ™‚ã ã‘ãƒ­ãƒ¼ãƒ‰
 		if( (!bRightDrag && umi.bShellMenu) || (bRightDrag && umi.bDragMenu)){
 			UserMenuArray.push_back(umi);
 		}
 	}
 
-	//B2Eˆ³kƒƒjƒ…[‚ğ“Ç‚İ‚İ
+	//B2Eåœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’èª­ã¿è¾¼ã¿
 	CPath strPath;
 	B2ECompressMenu.clear();
 	GetDefaultFilePath(strPath,_T("B2EMenu.dat"));
@@ -108,25 +108,25 @@ void CConfigManager::LoadConfig(BOOL bRightDrag,BOOL bForceExtra)
 	}
 }
 
-void CConfigManager::GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile)	//•W€‚Ìİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğƒZƒbƒg
+void CConfigManager::GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile)	//æ¨™æº–ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 {
-	const LPCTSTR PROGRAMDIR_NAME=_T("LhaForge");	//ApplicationData‚É“ü‚ê‚é‚Æ‚«‚É•K—v‚ÈƒfƒBƒŒƒNƒgƒŠ–¼
+	const LPCTSTR PROGRAMDIR_NAME=_T("LhaForge");	//ApplicationDataã«å…¥ã‚Œã‚‹ã¨ãã«å¿…è¦ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
 	//const LPCTSTR INI_FILE_NAME=_T("LhaForge.ini");
 
-	//---ƒ†[ƒU[ŠÔ‚Å‹¤’Ê‚Ìİ’è‚ğ—p‚¢‚é
-	//LhaForgeƒtƒHƒ‹ƒ_‚Æ“¯‚¶êŠ‚ÉINI‚ª‚ ‚ê‚Îg—p‚·‚é
+	//---ãƒ¦ãƒ¼ã‚¶ãƒ¼é–“ã§å…±é€šã®è¨­å®šã‚’ç”¨ã„ã‚‹
+	//LhaForgeãƒ•ã‚©ãƒ«ãƒ€ã¨åŒã˜å ´æ‰€ã«INIãŒã‚ã‚Œã°ä½¿ç”¨ã™ã‚‹
 	{
 		TCHAR szPath[_MAX_PATH+1]={0};
-		::GetModuleFileName(g_hInstDLL, szPath, _MAX_PATH);	//©•ª‚ÌƒpƒXæ“¾
+		::GetModuleFileName(g_hInstDLL, szPath, _MAX_PATH);	//è‡ªåˆ†ã®ãƒ‘ã‚¹å–å¾—
 		strIniPath=szPath;
 		strIniPath.RemoveFileSpec();
 		strIniPath.Append(lpszFile);
 		if(strIniPath.FileExists()){
-			//‹¤’Êİ’è
+			//å…±é€šè¨­å®š
 			return;
 		}
 	}
-	//CSIDL_COMMON_APPDATA‚ÉINI‚ª‚ ‚ê‚Îg—p‚·‚é
+	//CSIDL_COMMON_APPDATAã«INIãŒã‚ã‚Œã°ä½¿ç”¨ã™ã‚‹
 	{
 		TCHAR szPath[_MAX_PATH+1]={0};
 		SHGetFolderPath(NULL,CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE,NULL,SHGFP_TYPE_CURRENT,szPath);
@@ -134,23 +134,23 @@ void CConfigManager::GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile)	//•W
 		strIniPath.Append(PROGRAMDIR_NAME);
 		strIniPath.Append(lpszFile);
 		if(strIniPath.FileExists()){
-			//‹¤’Êİ’è
+			//å…±é€šè¨­å®š
 			return;
 		}
 	}
 
 	//--------------------
 
-	//---ƒ†[ƒU[•Êİ’è‚ğ—p‚¢‚é
-	//LhaForgeƒCƒ“ƒXƒg[ƒ‹ƒtƒHƒ‹ƒ_ˆÈ‰º‚Éƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éê‡A‚»‚ê‚ğg—p
+	//---ãƒ¦ãƒ¼ã‚¶ãƒ¼åˆ¥è¨­å®šã‚’ç”¨ã„ã‚‹
+	//LhaForgeã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãƒ•ã‚©ãƒ«ãƒ€ä»¥ä¸‹ã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€ãã‚Œã‚’ä½¿ç”¨
 	{
-		//ƒ†[ƒU[–¼æ“¾
+		//ãƒ¦ãƒ¼ã‚¶ãƒ¼åå–å¾—
 		TCHAR UserName[UNLEN+1]={0};
 		DWORD Length=UNLEN;
 		GetUserName(UserName,&Length);
 
 		TCHAR szPath[_MAX_PATH+1]={0};
-		::GetModuleFileName(g_hInstDLL, szPath, _MAX_PATH);	//©•ª‚ÌƒpƒXæ“¾
+		::GetModuleFileName(g_hInstDLL, szPath, _MAX_PATH);	//è‡ªåˆ†ã®ãƒ‘ã‚¹å–å¾—
 		strIniPath=szPath;
 		strIniPath.RemoveFileSpec();
 		strIniPath.Append(UserName);
@@ -160,8 +160,8 @@ void CConfigManager::GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile)	//•W
 			return;
 		}
 	}
-	//---ƒfƒtƒHƒ‹ƒg
-	//CSIDL_APPDATA‚ÉINI‚ª‚ ‚ê‚Îg—p‚·‚é:Vista‚Å‚Í‚±‚êˆÈŠO‚ÍƒAƒNƒZƒXŒ ŒÀ•s‘«‚É‚È‚é‰Â”\«‚ª‚ ‚é
+	//---ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+	//CSIDL_APPDATAã«INIãŒã‚ã‚Œã°ä½¿ç”¨ã™ã‚‹:Vistaã§ã¯ã“ã‚Œä»¥å¤–ã¯ã‚¢ã‚¯ã‚»ã‚¹æ¨©é™ä¸è¶³ã«ãªã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹
 	TCHAR szPath[_MAX_PATH+1]={0};
 	SHGetFolderPath(NULL,CSIDL_APPDATA|CSIDL_FLAG_CREATE,NULL,SHGFP_TYPE_CURRENT,szPath);
 	strIniPath=szPath;

@@ -1,11 +1,11 @@
-/////////////////////////////////////////////////////////////////////////////
+ï»¿/////////////////////////////////////////////////////////////////////////////
 //
 // Last update	$Date: 2010/12/05 06:24:46 $ UTC
 //   Revision   $Revision: 1.10 $
 //
 //	Modified by Claybird <claybird.without.wing@gmail.com>
 //
-// ShellExtClassFactory.cpp : ƒVƒFƒ‹Šg’£ ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ[ƒNƒ‰ƒX‚Ì’è‹`
+// ShellExtClassFactory.cpp : ã‚·ã‚§ãƒ«æ‹¡å¼µ ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ã‚¯ãƒ©ã‚¹ã®å®šç¾©
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@
 #include "Main.h"
 
 /*-------------------------------------------------------------------------*/
-// CShellExtClassFactory	ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^
+// CShellExtClassFactory	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /*-------------------------------------------------------------------------*/
 
 // CShellExtClassFactory
@@ -40,7 +40,7 @@ CShellExtClassFactory::~CShellExtClassFactory()
 /*-------------------------------------------------------------------------*/
 // CShellExtClassFactory	
 //
-//			IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒhŒQ
+//			IUnknown ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤
 //
 //				QueryInterface
 //				AddRef
@@ -83,13 +83,13 @@ STDMETHODIMP_(ULONG) CShellExtClassFactory::Release()
 	if(theRef == 0L){
 		delete this;
 	}
-	return theRef;	// ƒ[ƒJƒ‹•Ï”‚ðŽg‚Á‚Ä‚¢‚é‚Ì‚Í delete Œã‚Å‚à’l‚ð•Ô‚¹‚é‚æ‚¤‚É
+	return theRef;	// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ä½¿ã£ã¦ã„ã‚‹ã®ã¯ delete å¾Œã§ã‚‚å€¤ã‚’è¿”ã›ã‚‹ã‚ˆã†ã«
 }
 
 /*-------------------------------------------------------------------------*/
 // CShellExtClassFactory	
 //
-//			IClassFactory ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒhŒQ
+//			IClassFactory ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤
 //
 //				CreateInstance
 //				LockServer
@@ -107,11 +107,11 @@ STDMETHODIMP CShellExtClassFactory::CreateInstance(LPUNKNOWN pUnkOuter,REFIID ri
 	*ppv = NULL;
 
 	if(pUnkOuter != (LPUNKNOWN)NULL){
-		// ƒAƒOƒŠƒQ[ƒVƒ‡ƒ“‚ðƒTƒ|[ƒg‚µ‚È‚¢B
+		// ã‚¢ã‚°ãƒªã‚²ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚µãƒãƒ¼ãƒˆã—ãªã„ã€‚
 		hr = CLASS_E_NOAGGREGATION;
 	}
 	else{
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìì¬‚Æ‰Šú‰»‚ðs‚¤B
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½œæˆã¨åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
 		pShellExt = new CMenuExtension(IsRightDrag);
 		if(NULL == pShellExt){
     		hr = E_OUTOFMEMORY;
@@ -123,7 +123,7 @@ STDMETHODIMP CShellExtClassFactory::CreateInstance(LPUNKNOWN pUnkOuter,REFIID ri
 	}
 
 	if(hr == S_OK){
-		// ƒCƒ“ƒ^[ƒtƒF[ƒX‚ð—v‹‚·‚éB
+		// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’è¦æ±‚ã™ã‚‹ã€‚
 		hr = pShellExt->QueryInterface(riid, ppv);
 	}
 	return hr;

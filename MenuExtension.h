@@ -1,13 +1,13 @@
-/////////////////////////////////////////////////////////////////////////////
+ï»¿/////////////////////////////////////////////////////////////////////////////
 //
 //	Modified by Claybird <claybird.without.wing@gmail.com>
 //
-// MenuExtension.h :Šg’£ƒVƒFƒ‹ ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX‚Ìƒwƒbƒ_
-//					LhaForgeŠg’£ƒƒjƒ…[
+// MenuExtension.h :æ‹¡å¼µã‚·ã‚§ãƒ« ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã®ãƒ˜ãƒƒãƒ€
+//					LhaForgeæ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼
 //
 //	Original File Information:
-// MenuExtension.h :Šg’£ƒVƒFƒ‹ ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX‚Ìƒwƒbƒ_
-//					‘¼l‚Ìåì(TF)Šg’£ƒƒjƒ…[
+// MenuExtension.h :æ‹¡å¼µã‚·ã‚§ãƒ« ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã®ãƒ˜ãƒƒãƒ€
+//					ä»–äººã®è¤Œ(TF)æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -18,28 +18,28 @@
 const int PARAM_MAX_LEN=256;
 
 
-// ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìì¬iIShellExtInit,IContextMenu‚ğ‘½dŒp³‚·‚éj
+// ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½œæˆï¼ˆIShellExtInit,IContextMenuã‚’å¤šé‡ç¶™æ‰¿ã™ã‚‹ï¼‰
 class CMenuExtension : public IShellExtInit,public IContextMenu
 {
 protected:
-	//bool			m_bXP;					//WindowsXP‚à‚µ‚­‚Í‚»‚êˆÈ~‚È‚çtrue
-	LONG			m_cRef;					// ƒIƒuƒWƒFƒNƒg‚ÌQÆƒJƒEƒ“ƒg
-	bool			m_bMenuAdded;			//ƒƒjƒ…[’Ç‰ÁÏ‚İ‚È‚çtrue
+	//bool			m_bXP;					//WindowsXPã‚‚ã—ãã¯ãã‚Œä»¥é™ãªã‚‰true
+	LONG			m_cRef;					// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ã‚«ã‚¦ãƒ³ãƒˆ
+	bool			m_bMenuAdded;			//ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¿½åŠ æ¸ˆã¿ãªã‚‰true
 
-	std::vector<CString> m_SelFileArray;	// ‘I‘ğƒtƒ@ƒCƒ‹–¼ƒe[ƒuƒ‹
-	CString			m_strTargetFolder;			//ƒhƒ‰ƒbƒOæ‚ÌƒtƒHƒ‹ƒ_
+	std::vector<CString> m_SelFileArray;	// é¸æŠãƒ•ã‚¡ã‚¤ãƒ«åãƒ†ãƒ¼ãƒ–ãƒ«
+	CString			m_strTargetFolder;			//ãƒ‰ãƒ©ãƒƒã‚°å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€
 
-	std::vector<CString> m_CmdParamArray;	//ƒRƒ}ƒ“ƒhƒpƒ‰ƒ[ƒ^‚Ì”z—ñ;ƒƒjƒ…[ID‚Æ1‘Î1‘Î‰
+	std::vector<CString> m_CmdParamArray;	//ã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®é…åˆ—;ãƒ¡ãƒ‹ãƒ¥ãƒ¼IDã¨1å¯¾1å¯¾å¿œ
 
 	CConfigManager	m_Config;
-	bool			m_bRightDrag;				//‰Eƒhƒ‰ƒbƒO‚©‚Ç‚¤‚©;CLSID‚Å•ª—Ş‚µAClassFactory‚ÅŒˆ‚Ü‚é
-	bool			m_bForceExtraMenu;			//Šg’£ƒƒjƒ…[(SHIFT+‰EƒNƒŠƒbƒN/ƒhƒ‰ƒbƒO)‚©‚Ç‚¤‚©
-	std::vector<HMENU>	m_MenuHandleList;		//ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹ŠÇ—
+	bool			m_bRightDrag;				//å³ãƒ‰ãƒ©ãƒƒã‚°ã‹ã©ã†ã‹;CLSIDã§åˆ†é¡ã—ã€ClassFactoryã§æ±ºã¾ã‚‹
+	bool			m_bForceExtraMenu;			//æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼(SHIFT+å³ã‚¯ãƒªãƒƒã‚¯/ãƒ‰ãƒ©ãƒƒã‚°)ã‹ã©ã†ã‹
+	std::vector<HMENU>	m_MenuHandleList;		//ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«ç®¡ç†
 protected:
-	void PrepareMenu();			// ƒƒjƒ…[‚Ì€”õ
-	bool GetSelectedFiles(LPDATAOBJECT pDataObj);			// ‘I‘ğƒtƒ@ƒCƒ‹–¼æ‚èo‚µ
-	void DeleteMenuData();		// ƒƒjƒ…[ƒf[ƒ^‚Ì”jŠü
-	void DoCommand(UINT inIdx);	// ‘I‘ğ‚µ‚½Šg’£ƒƒjƒ…[‚ÌƒRƒ}ƒ“ƒhÀs
+	void PrepareMenu();			// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æº–å‚™
+	bool GetSelectedFiles(LPDATAOBJECT pDataObj);			// é¸æŠãƒ•ã‚¡ã‚¤ãƒ«åå–ã‚Šå‡ºã—
+	void DeleteMenuData();		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒ‡ãƒ¼ã‚¿ã®ç ´æ£„
+	void DoCommand(UINT inIdx);	// é¸æŠã—ãŸæ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 
 	HMENU MakePopupMenuItem();
 	void AddDummyMenuCommand(){m_CmdParamArray.push_back(_T(""));}
@@ -47,9 +47,9 @@ protected:
 	void BuildExtraMenu(HMENU hParentMenu,UINT idCmdFirst,int menuIdx,const SHELL_MENU_ITEM* pMenu,size_t numItems);
 	void InsertCommandMenuItems(HMENU hParentMenu,UINT idCmdFirst,const SHELL_MENU_ITEM* pMenu,size_t numItems,int nOffset);
 
-	UINT InsertContextMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst,BOOL bInSubMenu);	//ƒƒjƒ…[‚ğ’Ç‰Á
+	UINT InsertContextMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst,BOOL bInSubMenu);	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¿½åŠ 
 
-	UINT InsertCompressMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);	//indexMenu+(–ß‚è’l)‚ªŸ‚ÌindexMenu
+	UINT InsertCompressMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);	//indexMenu+(æˆ»ã‚Šå€¤)ãŒæ¬¡ã®indexMenu
 	UINT InsertExtractMenuRClick(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);
 	UINT InsertExtractMenuRDrag(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);
 	UINT InsertOperationMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);
@@ -57,19 +57,19 @@ protected:
 	UINT InsertB2EMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);
 	UINT InsertUserMenu(HMENU hMenu,UINT indexMenu,UINT idCmdFirst);
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	CMenuExtension(bool);
 	virtual ~CMenuExtension();
 
-	// IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+	// IUnknown ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 	STDMETHODIMP            QueryInterface(REFIID, LPVOID *);
 	STDMETHODIMP_(ULONG)    AddRef();
 	STDMETHODIMP_(ULONG)    Release();
 
-	// IShellExtInit ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+	// IShellExtInit ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 	STDMETHODIMP Initialize(LPCITEMIDLIST pIDFolder, LPDATAOBJECT pDataObj, HKEY hKeyID);
 
-	// IContextMenu ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+	// IContextMenu ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 	STDMETHODIMP QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst,UINT idCmdLast, UINT uFlags);
 	STDMETHODIMP InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi);
 	STDMETHODIMP GetCommandString(UINT_PTR idCmd, UINT uType, UINT* pwReserved,LPSTR pszName, UINT cchMax);

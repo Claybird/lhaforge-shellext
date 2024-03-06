@@ -1,41 +1,41 @@
-/////////////////////////////////////////////////////////////////////////////
+ï»¿/////////////////////////////////////////////////////////////////////////////
 //
 // Last update	$Date: 2007/11/01 15:32:33 $ UTC
 //   Revision   $Revision: 1.7 $
 //
 //	Modified by Claybird <claybird.without.wing@gmail.com>
 //
-// ShellExtClassFactory.h : ƒVƒFƒ‹Šg’£ ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ[ƒNƒ‰ƒX‚Ìƒwƒbƒ_
+// ShellExtClassFactory.h : ã‚·ã‚§ãƒ«æ‹¡å¼µ ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ã‚¯ãƒ©ã‚¹ã®ãƒ˜ãƒƒãƒ€
 //
 /////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-// ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ‚Ìì¬ (IClassFactoryƒCƒ“ƒ^[ƒtƒFƒCƒX‚ðŒp³‚·‚é)
+// ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ä½œæˆ (IClassFactoryã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’ç¶™æ‰¿ã™ã‚‹)
 class CShellExtClassFactory : public IClassFactory
 {
 protected:
     
-	// ŽQÆƒJƒEƒ“ƒg
+	// å‚ç…§ã‚«ã‚¦ãƒ³ãƒˆ
     LONG		m_cRef;
-	//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[‚©‚Ç‚¤‚©
+	//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‹ã©ã†ã‹
 	bool		IsRightDrag;
 
 public:
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	CShellExtClassFactory(bool);
 	virtual ~CShellExtClassFactory();
 
-	//IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+	//IUnknown ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 	STDMETHODIMP            QueryInterface(REFIID, LPVOID *);
 	STDMETHODIMP_(ULONG)    AddRef();
 	STDMETHODIMP_(ULONG)    Release();
 
-	//IClassFactory ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+	//IClassFactory ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 	STDMETHODIMP            CreateInstance(LPUNKNOWN, REFIID, LPVOID *);
 	STDMETHODIMP            LockServer(BOOL);
 
 };
-// ƒ|ƒCƒ“ƒ^Œ^‚ðéŒ¾
+// ãƒã‚¤ãƒ³ã‚¿åž‹ã‚’å®£è¨€
 typedef CShellExtClassFactory *LPCSHELLEXTCLASSFACTORY;

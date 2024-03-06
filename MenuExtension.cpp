@@ -1,13 +1,13 @@
-/////////////////////////////////////////////////////////////////////////////
+ï»¿/////////////////////////////////////////////////////////////////////////////
 //
 //	Modified by Claybird <claybird.without.wing@gmail.com>
 //
-// MenuExtension.cpp :	Šg’£ƒVƒFƒ‹ ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX‚Ì’è‹`
-//						LhaForgeŠg’£ƒƒjƒ…[
+// MenuExtension.cpp :	æ‹¡å¼µã‚·ã‚§ãƒ« ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã®å®šç¾©
+//						LhaForgeæ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼
 //
 //	Original File Information:
-// MenuExtension.cpp :	Šg’£ƒVƒFƒ‹ ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX‚Ì’è‹`
-//						‘¼l‚Ìåì(TF)Šg’£ƒƒjƒ…[
+// MenuExtension.cpp :	æ‹¡å¼µã‚·ã‚§ãƒ« ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã®å®šç¾©
+//						ä»–äººã®è¤Œ(TF)æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 #include "lfutil.h"
 
 //-------------------------------------------------------------------------
-// CMenuExtension	ƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^
+// CMenuExtension	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //-------------------------------------------------------------------------
 
 // CMenuExtension
@@ -38,7 +38,7 @@ CMenuExtension::~CMenuExtension()
 {
 	dprintf(_T("CMenuExtension::~CMenuExtension\n\n\n"));
 
-	//ƒƒjƒ…[ƒf[ƒ^‚Ì”jŠü
+	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒ‡ãƒ¼ã‚¿ã®ç ´æ£„
 	DeleteMenuData();
 
 	InterlockedDecrement(&g_cDllRef);
@@ -47,7 +47,7 @@ CMenuExtension::~CMenuExtension()
 //-------------------------------------------------------------------------
 // CMenuExtension	
 //
-//			IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒhŒQ
+//			IUnknown ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤
 //
 //				QueryInterface
 //				AddRef
@@ -94,13 +94,13 @@ STDMETHODIMP_(ULONG) CMenuExtension::Release()
 
 	ULONG theRef = InterlockedDecrement(&m_cRef);
 	if(theRef == 0L)delete this;
-	return theRef;	// ƒ[ƒJƒ‹•Ï”‚ğg‚Á‚Ä‚¢‚é‚Ì‚Í delete Œã‚Å‚à’l‚ğ•Ô‚¹‚é‚æ‚¤‚É
+	return theRef;	// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ä½¿ã£ã¦ã„ã‚‹ã®ã¯ delete å¾Œã§ã‚‚å€¤ã‚’è¿”ã›ã‚‹ã‚ˆã†ã«
 }
 
 //-------------------------------------------------------------------------
 // CMenuExtension	
 //
-//			IShellExtInit ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh
+//			IShellExtInit ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
 //
 //				Initialize
 //
@@ -118,10 +118,10 @@ STDMETHODIMP CMenuExtension::Initialize(
 
 	m_SelFileArray.clear();
 
-	//ƒƒjƒ…[ƒf[ƒ^‚Ì”jŠü
+	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒ‡ãƒ¼ã‚¿ã®ç ´æ£„
 	DeleteMenuData();
 
-	//‘ÎÛƒtƒHƒ‹ƒ_æ“¾
+	//å¯¾è±¡ãƒ•ã‚©ãƒ«ãƒ€å–å¾—
 	if(m_bRightDrag){
 		TCHAR Buffer[_MAX_PATH+3]={0};
 		::SHGetPathFromIDList( pIDFolder, Buffer);
@@ -129,12 +129,12 @@ STDMETHODIMP CMenuExtension::Initialize(
 		m_strTargetFolder=Buffer;
 	}
 
-	//‘I‘ğƒtƒ@ƒCƒ‹æ“¾
+	//é¸æŠãƒ•ã‚¡ã‚¤ãƒ«å–å¾—
     if(pDataObj){
 		GetSelectedFiles(pDataObj);
     }
 
-	// ƒƒjƒ…[‚Ì€”õ
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æº–å‚™
 	//PrepareMenu();
 	return NOERROR;
 }
@@ -142,7 +142,7 @@ STDMETHODIMP CMenuExtension::Initialize(
 //-------------------------------------------------------------------------
 // CMenuExtension	
 //
-//			IShellExtInit ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒhŒQ
+//			IShellExtInit ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤
 //
 //				QueryContextMenu
 //				InvokeCommand
@@ -161,21 +161,21 @@ STDMETHODIMP CMenuExtension::QueryContextMenu(
 	dprintf(_T("CMenuExtension::QueryContextMenu\n"));
 	if(m_bMenuAdded)return MAKE_HRESULT(SEVERITY_SUCCESS,FACILITY_NULL,0);
 
-	// uFlags ‚É CMF_DEFAULTONLY ‚ªŠÜ‚Ü‚ê‚éê‡‚Í‰½‚à‚µ‚È‚¢
+	// uFlags ã« CMF_DEFAULTONLY ãŒå«ã¾ã‚Œã‚‹å ´åˆã¯ä½•ã‚‚ã—ãªã„
 	if ((uFlags & CMF_DEFAULTONLY)){
 		return MAKE_HRESULT(SEVERITY_SUCCESS,FACILITY_NULL,0);
 	}
 
-	if((uFlags&0x000F)!=CMF_NORMAL && !(uFlags&CMF_VERBSONLY) && !(uFlags&CMF_EXPLORE)/*ƒcƒŠ[ƒrƒ…[‚Å‰EƒNƒŠƒbƒN*/){
+	if((uFlags&0x000F)!=CMF_NORMAL && !(uFlags&CMF_VERBSONLY) && !(uFlags&CMF_EXPLORE)/*ãƒ„ãƒªãƒ¼ãƒ“ãƒ¥ãƒ¼ã§å³ã‚¯ãƒªãƒƒã‚¯*/){
 		return MAKE_HRESULT(SEVERITY_SUCCESS,FACILITY_NULL,0);
 	}
 
 	//if(uFlags & CMF_EXTENDEDVERBS){
-	//	//Šg’£ƒƒjƒ…[
+	//	//æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	//	m_bForceExtraMenu=true;
 	//}
 
-	//ƒtƒ@ƒCƒ‹‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç‰½‚à‚µ‚È‚¢
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãŒé¸æŠã•ã‚Œã¦ã„ãªã„ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if(m_SelFileArray.empty()){
 		return MAKE_HRESULT(SEVERITY_SUCCESS,FACILITY_NULL,0);
 	}
@@ -183,22 +183,22 @@ STDMETHODIMP CMenuExtension::QueryContextMenu(
 	PrepareMenu();
 
 	//================
-	// ƒƒjƒ…[‚Ì•\¦
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¡¨ç¤º
 	//================
 	HMENU hTargetMenu=hMenu;
 	UINT subMenuIdx=indexMenu;
-	if(m_Config.bUnderSubMenu){	//ƒTƒuƒƒjƒ…[ˆÈ‰º‚É•ú‚è‚Şê‡
+	if(m_Config.bUnderSubMenu){	//ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ä»¥ä¸‹ã«æ”¾ã‚Šè¾¼ã‚€å ´åˆ
 		hTargetMenu=MakePopupMenuItem();
 		subMenuIdx=0;
 	}
-	//ÀÛ‚Éƒƒjƒ…[’Ç‰Á
+	//å®Ÿéš›ã«ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¿½åŠ 
 	UINT itemsAdded=InsertContextMenu(hTargetMenu,subMenuIdx,idCmdFirst,m_Config.bUnderSubMenu);
 
-	//‰½‚©‚µ‚ç‚Ìƒƒjƒ…[‚ğ’Ç‰Á‚µ‚½ê‡
+	//ä½•ã‹ã—ã‚‰ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¿½åŠ ã—ãŸå ´åˆ
 	if(itemsAdded!=0){
 		int nTop=itemsAdded;
-		if(m_Config.bUnderSubMenu){	//ƒTƒuƒƒjƒ…[
-			//uLhaForgev‚ğ’Ç‰Á
+		if(m_Config.bUnderSubMenu){	//ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+			//ã€ŒLhaForgeã€ã‚’è¿½åŠ 
 			CString strCaption;
 			UtilLoadString(IDS_MENU_CAPTION_LHAFORGE,strCaption);
 			UtilInsertMenuItem(hMenu,strCaption,indexMenu+itemsAdded,hTargetMenu,idCmdFirst+(WORD)m_CmdParamArray.size());
@@ -208,13 +208,13 @@ STDMETHODIMP CMenuExtension::QueryContextMenu(
 		}
 
 		//------------------------
-		// ÅŒã‚ÌƒZƒpƒŒ[ƒ^‚Ì’Ç‰Á
+		// æœ€å¾Œã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ã®è¿½åŠ 
 		//------------------------
 		UtilInsertMenuItem(hMenu,NULL,indexMenu+nTop,NULL,idCmdFirst+(WORD)m_CmdParamArray.size());
 		AddDummyMenuCommand();
 	}
 
-	//ƒƒjƒ…[’Ç‰ÁÏ‚İƒtƒ‰ƒO‚ğ—§‚Ä‚é;”O‚Ì‚½‚ß
+	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¿½åŠ æ¸ˆã¿ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹;å¿µã®ãŸã‚
 	m_bMenuAdded=true;
 
 	/*
@@ -239,24 +239,24 @@ HMENU CMenuExtension::MakePopupMenuItem()
 
 void CMenuExtension::BuildExtraMenu(HMENU hParentMenu,UINT idCmdFirst,int menuIdx,const SHELL_MENU_ITEM* pMenu,size_t numItems)
 {
-	//ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ìª–{
+	//ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æ ¹æœ¬
 	HMENU hTempMenu=MakePopupMenuItem();
 	CString strCaption;
 	UtilLoadString(pMenu[0].Caption,strCaption);
 /*
-ƒTƒuƒƒjƒ…[‚Æeƒƒjƒ…[‚ÅƒLƒƒƒvƒVƒ‡ƒ“‚ª”í‚é‚ÆID‚ğƒ}[ƒW‚³‚ê‚é–Í—l
+ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã¨è¦ªãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³ãŒè¢«ã‚‹ã¨IDã‚’ãƒãƒ¼ã‚¸ã•ã‚Œã‚‹æ¨¡æ§˜
 +(parent)[caption:ABC][id:0]+
          +--(childA)[caption:ABC][id:1]
          +--(childB)[caption:DEF][id:2]
-‚±‚ÌŒ`®‚ÌAid:0‚Æid:1‚ª“¯‚¶ƒLƒƒƒvƒVƒ‡ƒ“‚ğg‚Á‚Ä‚¢‚é
-‚·‚é‚ÆAchildA(id:1)‚ğ‘I‚ñ‚¾‚Æ‚«Aid:0‚ğ‘I‚ñ‚¾•¨‚Æ‚µ‚Äˆµ‚í‚ê‚Ä‚µ‚Ü‚¤
+ã“ã®å½¢å¼ã®æ™‚ã€id:0ã¨id:1ãŒåŒã˜ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³ã‚’ä½¿ã£ã¦ã„ã‚‹
+ã™ã‚‹ã¨ã€childA(id:1)ã‚’é¸ã‚“ã ã¨ãã€id:0ã‚’é¸ã‚“ã ç‰©ã¨ã—ã¦æ‰±ã‚ã‚Œã¦ã—ã¾ã†
 */
-	//HACK:ƒTƒuƒƒjƒ…[‚Æeƒƒjƒ…[‚ÅƒLƒƒƒvƒVƒ‡ƒ“‚ª”í‚ç‚È‚¢‚æ‚¤‚É‚¿‚å‚Á‚Æ‚¾‚¯‚¢‚¶‚é
+	//HACK:ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã¨è¦ªãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³ãŒè¢«ã‚‰ãªã„ã‚ˆã†ã«ã¡ã‚‡ã£ã¨ã ã‘ã„ã˜ã‚‹
 	UtilInsertMenuItem(hParentMenu,strCaption+_T(" "),menuIdx,hTempMenu,-1);//idCmdFirst+(WORD)m_CmdParamArray.size());
-	//ƒ_ƒ~[ƒAƒCƒeƒ€
+	//ãƒ€ãƒŸãƒ¼ã‚¢ã‚¤ãƒ†ãƒ 
 //	AddDummyMenuCommand();
 
-	//Šeƒƒjƒ…[
+	//å„ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	InsertCommandMenuItems(hTempMenu,idCmdFirst,pMenu+1,numItems-1,0);
 }
 
@@ -279,23 +279,23 @@ UINT CMenuExtension::InsertCompressMenu(
 	UINT	indexMenu,
 	UINT	idCmdFirst)
 {
-	//---ˆ³kƒƒjƒ…[
+	//---åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	HMENU hCompressSubMenu=MakePopupMenuItem();
 
 	bool bMenuAdded=false;
 
 	if(m_Config.bExtraMenu){
-		//”­“Wƒƒjƒ…[
+		//ç™ºå±•ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		for(int menuIdx=0;menuIdx<COUNTOF(g_ExtraMenuTable);menuIdx++){
 			BuildExtraMenu(hCompressSubMenu,idCmdFirst,menuIdx,g_ExtraMenuTable[menuIdx].pMenu,g_ExtraMenuTable[menuIdx].numItems);
 		}
 		bMenuAdded=true;
 	}else if(!m_Config.bCustomCompress){
-		//’Êí‚Ìˆ³kƒƒjƒ…[
+		//é€šå¸¸ã®åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		InsertCommandMenuItems(hCompressSubMenu,idCmdFirst,g_CompressMenu,COUNTOF(g_CompressMenu),0);
 		bMenuAdded=true;
 	}else{
-		//ƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ƒƒjƒ…[‚ğg‚¤
+		//ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã•ã‚ŒãŸãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’ä½¿ã†
 		std::vector<SHELL_MENU_ITEM> menu;
 
 		LPCTSTR lpChar=m_Config.szCustomCompress;
@@ -303,15 +303,15 @@ UINT CMenuExtension::InsertCompressMenu(
 		for(;*lpChar!=_T('\0');lpChar++){
 			int i;
 			for(i=0;i<COUNTOF(g_UserMenuTable);i++){
-				if(g_UserMenuTable[i].Identifier==*lpChar){	//ˆê’v
+				if(g_UserMenuTable[i].Identifier==*lpChar){	//ä¸€è‡´
 					break;
 				}
 			}
-			if(i==COUNTOF(g_UserMenuTable)){	//ˆê’v‚·‚é•¨‚ª‚È‚¢A‚Â‚Ü‚è•s³‚Èƒƒjƒ…[w’è
+			if(i==COUNTOF(g_UserMenuTable)){	//ä¸€è‡´ã™ã‚‹ç‰©ãŒãªã„ã€ã¤ã¾ã‚Šä¸æ­£ãªãƒ¡ãƒ‹ãƒ¥ãƒ¼æŒ‡å®š
 				MessageBeep(MB_ICONEXCLAMATION);
 				continue;
 			}else{
-				//ƒƒjƒ…[ƒAƒCƒeƒ€‚ğ’Ç‰Á
+				//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿½åŠ 
 				SHELL_MENU_ITEM smi;
 				smi.Caption=g_UserMenuTable[i].lpMenuItem->Caption;
 				smi.Param=g_UserMenuTable[i].lpMenuItem->Param;
@@ -327,11 +327,11 @@ UINT CMenuExtension::InsertCompressMenu(
 
 
 	if(bMenuAdded){
-		//ˆ³kƒƒjƒ…[‚Ìƒ|ƒbƒvƒAƒbƒv‚Ìª–{‚ğ’Ç‰Á
+		//åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã®æ ¹æœ¬ã‚’è¿½åŠ 
 		CString strCaption;
-		if(m_bRightDrag){	//‰Eƒhƒ‰ƒbƒO
+		if(m_bRightDrag){	//å³ãƒ‰ãƒ©ãƒƒã‚°
 			UtilLoadString(IDS_MENU_CAPTION_COMPRESS_DRAG,strCaption);
-		}else{	//‰EƒNƒŠƒbƒN
+		}else{	//å³ã‚¯ãƒªãƒƒã‚¯
 			UtilLoadString(IDS_MENU_CAPTION_COMPRESS,strCaption);
 		}
 		dprintf(_T("MenuCaption=(%s),indexMenu=(%d)\n"),(LPCTSTR)strCaption,m_CmdParamArray.size());
@@ -351,15 +351,15 @@ UINT CMenuExtension::InsertExtractMenuRClick(
 {
 	HMENU hExtractSubMenu=MakePopupMenuItem();
 
-	//‰EƒNƒŠƒbƒNƒƒjƒ…[‚Å‰ğ“€‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é‚Æ‚«
+	//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§è§£å‡ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã¨ã
 	CString strCaption;
-	//uLhaForge‚Å‰ğ“€v‚ğ’Ç‰Á
+	//ã€ŒLhaForgeã§è§£å‡ã€ã‚’è¿½åŠ 
 	UtilLoadString(IDS_MENU_CAPTION_EXTRACT,strCaption);
 	dprintf(_T("MenuCaption=(%s),indexMenu=(%d)\n"),(LPCTSTR)strCaption,indexMenu);
 	UtilInsertMenuItem(hMenu,strCaption,indexMenu,hExtractSubMenu,idCmdFirst+(WORD)m_CmdParamArray.size());
 	AddDummyMenuCommand();
 
-	// ƒRƒ}ƒ“ƒhƒpƒ‰ƒƒ^‚©‚ç’Ç‰Á‚Æ‚È‚éƒTƒuƒƒjƒ…[ƒRƒ}ƒ“ƒh‚ğ’Ç‰Á
+	// ã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ã‚¿ã‹ã‚‰è¿½åŠ ã¨ãªã‚‹ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒãƒ³ãƒ‰ã‚’è¿½åŠ 
 	InsertCommandMenuItems(hExtractSubMenu,idCmdFirst,g_ExtractMenu,COUNTOF(g_ExtractMenu),0);
 
 	return 1;
@@ -384,10 +384,10 @@ UINT CMenuExtension::InsertOperationMenu(
 	UINT	indexMenu,
 	UINT	idCmdFirst)
 {
-	// ‰{——ƒƒjƒ…[
+	// é–²è¦§ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	UINT subIndex=0;
 	if(m_Config.ShellMenu.bList){
-		//‰EƒNƒŠƒbƒNƒƒjƒ…[‚Ìê‡‚Ì‚İ
+		//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å ´åˆã®ã¿
 		CString strCaption;
 		UtilLoadString(IDS_MENU_CAPTION_LIST,strCaption);
 		UtilInsertMenuItem(hMenu,strCaption,indexMenu+subIndex,NULL,idCmdFirst+(WORD)m_CmdParamArray.size());
@@ -396,7 +396,7 @@ UINT CMenuExtension::InsertOperationMenu(
 		subIndex++;
 	}
 
-	// ŒŸ¸ƒƒjƒ…[
+	// æ¤œæŸ»ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if(m_Config.ShellMenu.bTestArchive){
 		CString strCaption;
 		UtilLoadString(IDS_MENU_CAPTION_TEST_ARCHIVE,strCaption);
@@ -414,18 +414,18 @@ UINT CMenuExtension::InsertXacRettMenu(
 	UINT	indexMenu,
 	UINT	idCmdFirst)
 {
-	if(!m_bRightDrag){	//‰EƒNƒŠƒbƒNƒƒjƒ…[‚Ìê‡
+	if(!m_bRightDrag){	//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å ´åˆ
 		HMENU hXacRettSubMenu=MakePopupMenuItem();
-		//uLhaForge+XacRett.DLLv‚ğ’Ç‰Á
+		//ã€ŒLhaForge+XacRett.DLLã€ã‚’è¿½åŠ 
 		CString strCaption;
 		UtilLoadString(IDS_MENU_CAPTION_XACRETT,strCaption);
 		UtilInsertMenuItem(hMenu,strCaption,indexMenu,hXacRettSubMenu,idCmdFirst+(WORD)m_CmdParamArray.size());
 		AddDummyMenuCommand();
 
-		// ƒRƒ}ƒ“ƒhƒpƒ‰ƒƒ^‚©‚ç’Ç‰Á‚Æ‚È‚éƒTƒuƒƒjƒ…[ƒRƒ}ƒ“ƒh‚ğ’Ç‰Á
+		// ã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ã‚¿ã‹ã‚‰è¿½åŠ ã¨ãªã‚‹ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒãƒ³ãƒ‰ã‚’è¿½åŠ 
 		InsertCommandMenuItems(hXacRettSubMenu,idCmdFirst,g_XacRettMenu,COUNTOF(g_XacRettMenu),0);
 	}else{
-		//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[‚Ìê‡
+		//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å ´åˆ
 		CString strCaption;
 		UtilLoadString(IDS_MENU_CAPTION_XACRETT_DRAG,strCaption);
 
@@ -444,14 +444,14 @@ UINT CMenuExtension::InsertB2EMenu(
 	HMENU hB2ESubMenu=MakePopupMenuItem();
 
 	CString strCaption;
-	//uLhaForge+B2E32.DLLv‚ğ’Ç‰Á
+	//ã€ŒLhaForge+B2E32.DLLã€ã‚’è¿½åŠ 
 	UtilLoadString(IDS_MENU_CAPTION_B2E,strCaption);
 	UtilInsertMenuItem(hMenu,strCaption,indexMenu,hB2ESubMenu,idCmdFirst+(WORD)m_CmdParamArray.size());
 	AddDummyMenuCommand();
 
 	int nOffset=0;
-	//ˆ³kŒ`®‚ğƒƒjƒ…[‚Å•\¦‚·‚é‚È‚çƒTƒuƒƒjƒ…[’Ç‰Á
-	//uB2E‚Å‚±‚ÌŒ`®‚Éˆ³kv“I‚È“à—e
+	//åœ§ç¸®å½¢å¼ã‚’ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§è¡¨ç¤ºã™ã‚‹ãªã‚‰ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¿½åŠ 
+	//ã€ŒB2Eã§ã“ã®å½¢å¼ã«åœ§ç¸®ã€çš„ãªå†…å®¹
 	bool bMethodSelect=!m_Config.B2ECompressMenu.empty();
 	if(bMethodSelect){
 		HMENU hB2ECompressPopup=MakePopupMenuItem();
@@ -459,15 +459,15 @@ UINT CMenuExtension::InsertB2EMenu(
 		UtilInsertMenuItem(hB2ESubMenu,strCaption,0,hB2ECompressPopup,idCmdFirst+(WORD)m_CmdParamArray.size());
 		AddDummyMenuCommand();
 
-		//Œ`®‚²‚Æ‚Ìƒƒjƒ…[‚ğ—pˆÓ
+		//å½¢å¼ã”ã¨ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’ç”¨æ„
 		for(UINT j=0;j<m_Config.B2ECompressMenu.size();j++){
-			//Œ`®–¼‚Ìƒƒjƒ…[
+			//å½¢å¼åã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 			HMENU hTempMenu=MakePopupMenuItem();
-			//HACK:Œ`®‚²‚Æ‚ÌƒTƒuƒƒjƒ…[‚Æ–¼‘O‚ª”í‚ç‚È‚¢‚æ‚¤‚É×H‚·‚é
+			//HACK:å½¢å¼ã”ã¨ã®ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã¨åå‰ãŒè¢«ã‚‰ãªã„ã‚ˆã†ã«ç´°å·¥ã™ã‚‹
 			UtilInsertMenuItem(hB2ECompressPopup,m_Config.B2ECompressMenu[j][0]+_T(" "),j,hTempMenu,-1);//idCmdFirst+(WORD)m_CmdParamArray.size());
 			//AddDummyMenuCommand();
 
-			//Œ`®‚²‚Æ‚ÌƒTƒuƒƒjƒ…[
+			//å½¢å¼ã”ã¨ã®ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 			for(UINT i=1;i<m_Config.B2ECompressMenu[j].size();i++){
 				UtilInsertMenuItem(hTempMenu,m_Config.B2ECompressMenu[j][i],i-1,NULL,idCmdFirst+(WORD)m_CmdParamArray.size());
 
@@ -480,7 +480,7 @@ UINT CMenuExtension::InsertB2EMenu(
 		nOffset=1;
 	}
 
-	// ƒRƒ}ƒ“ƒhƒpƒ‰ƒƒ^‚©‚ç’Ç‰Á‚Æ‚È‚éƒTƒuƒƒjƒ…[ƒRƒ}ƒ“ƒh‚ğ’Ç‰Á
+	// ã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ã‚¿ã‹ã‚‰è¿½åŠ ã¨ãªã‚‹ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚³ãƒãƒ³ãƒ‰ã‚’è¿½åŠ 
 	if(m_bRightDrag){
 		InsertCommandMenuItems(hB2ESubMenu,idCmdFirst,g_B2EDragMenu,COUNTOF(g_B2EDragMenu),nOffset);
 	}else{
@@ -496,7 +496,7 @@ UINT CMenuExtension::InsertUserMenu(
 {
 	UINT subIndex=0;
 	for(UINT i=0;i<m_Config.UserMenuArray.size();i++){
-		// ƒRƒ}ƒ“ƒhƒƒjƒ…[’Ç‰Á
+		// ã‚³ãƒãƒ³ãƒ‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¿½åŠ 
 		UtilInsertMenuItem(hMenu,m_Config.UserMenuArray[i].Caption,indexMenu+subIndex,NULL,idCmdFirst+(WORD)m_CmdParamArray.size());
 		m_CmdParamArray.push_back(m_Config.UserMenuArray[i].Param);
 		subIndex++;
@@ -510,18 +510,18 @@ UINT CMenuExtension::InsertContextMenu(
 	UINT	idCmdFirst,
 	BOOL	bInSubMenu)
 {
-	// ƒƒjƒ…[‚Ì•\¦
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¡¨ç¤º
 
 	UINT subIndex=0;
-	//--ˆ³kƒƒjƒ…[
+	//--åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if(m_Config.ShellMenu.bCompress || m_Config.DragMenu.bCompress){
 		subIndex+=InsertCompressMenu(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
 
-	//--‰ğ“€ƒƒjƒ…[
-	if(m_Config.ShellMenu.bExtract){		//‰EƒNƒŠƒbƒN
+	//--è§£å‡ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	if(m_Config.ShellMenu.bExtract){		//å³ã‚¯ãƒªãƒƒã‚¯
 		subIndex+=InsertExtractMenuRClick(hMenu,indexMenu+subIndex,idCmdFirst);
-	}else if(m_Config.DragMenu.bExtract){	//‰Eƒhƒ‰ƒbƒO
+	}else if(m_Config.DragMenu.bExtract){	//å³ãƒ‰ãƒ©ãƒƒã‚°
 		subIndex+=InsertExtractMenuRDrag(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
 
@@ -529,9 +529,9 @@ UINT CMenuExtension::InsertContextMenu(
 	if(bSub){
 		HMENU hOperationMenu=MakePopupMenuItem();
 		int subSubIndex=0;
-		//--LhaForge‚Å‘€ì
+		//--LhaForgeã§æ“ä½œ
 		subSubIndex+=InsertOperationMenu(hOperationMenu,subSubIndex,idCmdFirst);
-		//--ƒ†[ƒU[’è‹`ƒƒjƒ…[
+		//--ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		subSubIndex+=InsertUserMenu(hOperationMenu,subSubIndex,idCmdFirst);
 
 		if(subSubIndex>0){
@@ -542,20 +542,20 @@ UINT CMenuExtension::InsertContextMenu(
 			subIndex++;
 		}
 	}else{
-		//--LhaForge‚Å‘€ì
+		//--LhaForgeã§æ“ä½œ
 		subIndex+=InsertOperationMenu(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
 
-	//-- XacRettƒƒjƒ…[
+	//-- XacRettãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if(m_Config.bXacRett){
 		subIndex+=InsertXacRettMenu(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
 
-	//--B2Eƒƒjƒ…[
+	//--B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if(m_Config.bB2E){
 		subIndex+=InsertB2EMenu(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
-	//--ƒ†[ƒU[’è‹`ƒƒjƒ…[
+	//--ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if(!bSub){
 		subIndex+=InsertUserMenu(hMenu,indexMenu+subIndex,idCmdFirst);
 	}
@@ -571,15 +571,15 @@ STDMETHODIMP CMenuExtension::InvokeCommand(
 
 	HRESULT hr = E_INVALIDARG;
 
-	// HIWORD(lpcmi->lpVerb)‚ª0‚Å‚Í‚È‚¢‚Æ‚«‚Ì‚İˆ—
-	// LOWORD(lpcmi->lpVerb)‚ÍƒNƒŠƒbƒN‚³‚ê‚½ƒƒjƒ…[ID
-	// ‚±‚ê‚ÍQueryContextMenu()‚Å‚Ì (menu ID - idCmdFirst)
+	// HIWORD(lpcmi->lpVerb)ãŒ0ã§ã¯ãªã„ã¨ãã®ã¿å‡¦ç†
+	// LOWORD(lpcmi->lpVerb)ã¯ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸãƒ¡ãƒ‹ãƒ¥ãƒ¼ID
+	// ã“ã‚Œã¯QueryContextMenu()ã§ã® (menu ID - idCmdFirst)
 	if(!HIWORD(lpcmi->lpVerb)){
 		UINT idCmd = LOWORD(lpcmi->lpVerb);
 
-		// Šg’£ƒƒjƒ…[‚Ì—LŒø”ÍˆÍ‚ğƒ`ƒFƒbƒN
+		// æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æœ‰åŠ¹ç¯„å›²ã‚’ãƒã‚§ãƒƒã‚¯
 		if(!m_CmdParamArray.empty() && idCmd >= 0 && idCmd < m_CmdParamArray.size()){
-			// ƒRƒ}ƒ“ƒhÀs
+			// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 			DoCommand(idCmd);
 			hr = NOERROR;
 		}
@@ -599,7 +599,7 @@ STDMETHODIMP CMenuExtension::GetCommandString(
 
 	dprintf(_T("CMenuExtension::GetCommandString(ParamCount=%d : idCmd=%d)\n"),m_CmdParamArray.size(),idCmd);
 
-	//IDŒŸØ:ƒVƒXƒeƒ€‚É‚æ‚éƒƒjƒ…[ƒAƒCƒeƒ€‚Ì‘¶İŠm”F‚às‚í‚ê‚é
+	//IDæ¤œè¨¼:ã‚·ã‚¹ãƒ†ãƒ ã«ã‚ˆã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã®å­˜åœ¨ç¢ºèªã‚‚è¡Œã‚ã‚Œã‚‹
 	//http://blogs.msdn.com/oldnewthing/archive/2004/10/06/238630.aspx
 	if(idCmd >= m_CmdParamArray.size()){
 		if (uType == GCS_VALIDATEA || uType == GCS_VALIDATEW) {
@@ -607,7 +607,7 @@ STDMETHODIMP CMenuExtension::GetCommandString(
 		}else return E_INVALIDARG;
 	}
 
-	// ƒXƒe[ƒ^ƒX•\¦•¶š
+	// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è¡¨ç¤ºæ–‡å­—
 	CString strCaption;
 	UtilLoadString(IDS_DEFAULT_STATUS_CAPTION,strCaption);
 	switch (uType) {
@@ -632,10 +632,10 @@ STDMETHODIMP CMenuExtension::GetCommandString(
 }
 
 
-//--- ƒVƒFƒ‹Šg’£@ƒRƒ“ƒeƒNƒXƒgƒƒjƒ…[‚ÌÀ‘•
+//--- ã‚·ã‚§ãƒ«æ‹¡å¼µã€€ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å®Ÿè£…
 
 
-//‘I‘ğ‚µ‚Ä‚¢‚éƒtƒ@ƒCƒ‹–¼‚Ìæ‚èo‚µ
+//é¸æŠã—ã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã®å–ã‚Šå‡ºã—
 bool CMenuExtension::GetSelectedFiles(LPDATAOBJECT pDataObj)
 {
 	if(!pDataObj)return false;
@@ -685,21 +685,21 @@ bool CMenuExtension::GetSelectedFiles(LPDATAOBJECT pDataObj)
 }
 
 /*-------------------------------------------------------------------------*/
-//	PrepareMenu		ƒƒjƒ…[‚Ì€”õ
+//	PrepareMenu		ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æº–å‚™
 /*-------------------------------------------------------------------------*/
 void CMenuExtension::PrepareMenu()
 {
-	//İ’è“Ç‚İ‚İ
+	//è¨­å®šèª­ã¿è¾¼ã¿
 	m_Config.LoadConfig(m_bRightDrag,m_bForceExtraMenu);
 }
 
 /*-------------------------------------------------------------------------*/
-//	DeleteMenuData			ƒƒjƒ…[ƒf[ƒ^‚Ì”jŠü
+//	DeleteMenuData			ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒ‡ãƒ¼ã‚¿ã®ç ´æ£„
 /*-------------------------------------------------------------------------*/
 void CMenuExtension::DeleteMenuData()
 {
 	m_CmdParamArray.clear();
-	//ƒTƒuƒƒjƒ…[”pŠü
+	//ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼å»ƒæ£„
 	for(UINT i=0;i<m_MenuHandleList.size();i++){
 		::DestroyMenu(m_MenuHandleList[i]);
 	}
@@ -707,19 +707,19 @@ void CMenuExtension::DeleteMenuData()
 }
 
 /*-------------------------------------------------------------------------*/
-//	DoCommand		‘I‘ğ‚µ‚½Šg’£ƒƒjƒ…[‚Ìƒtƒ@ƒCƒ‹‚ğƒ‰ƒ“ƒ`iŠJ‚­j
+//	DoCommand		é¸æŠã—ãŸæ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ©ãƒ³ãƒï¼ˆé–‹ãï¼‰
 /*-------------------------------------------------------------------------*/
 void CMenuExtension::DoCommand(UINT inIdx)
 {
-	// ƒRƒ}ƒ“ƒhID‚ÆƒRƒ}ƒ“ƒhƒpƒ‰ƒƒ^‚Ì—LŒø«‚Íƒ`ƒFƒbƒNÏ
+	// ã‚³ãƒãƒ³ãƒ‰IDã¨ã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ã‚¿ã®æœ‰åŠ¹æ€§ã¯ãƒã‚§ãƒƒã‚¯æ¸ˆ
 
 	dprintf(_T("DoCommand-> inIdx=%d : Param=%s\n"),inIdx,(LPCTSTR)m_CmdParamArray[inIdx]);
 
-	// “¯ˆêƒtƒHƒ‹ƒ_‚É‚ ‚éˆ³kƒvƒƒOƒ‰ƒ€(LhaForge.exe)‚Ìƒtƒ‹ƒpƒX‘g‚İ—§‚Ä
+	// åŒä¸€ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚ã‚‹åœ§ç¸®ãƒ—ãƒ­ã‚°ãƒ©ãƒ (LhaForge.exe)ã®ãƒ•ãƒ«ãƒ‘ã‚¹çµ„ã¿ç«‹ã¦
 	TCHAR szExePath[_MAX_PATH+1];
 	{
-		::GetModuleFileName(g_hInstDLL, szExePath, _MAX_PATH);	//DLL‚ÌƒpƒXæ“¾
-		//DLL‚ÌƒpƒX‚ğŒ³‚ÉLhaForge‚Ìƒtƒ@ƒCƒ‹–¼‚ğ‘g‚İ—§‚Ä‚é
+		::GetModuleFileName(g_hInstDLL, szExePath, _MAX_PATH);	//DLLã®ãƒ‘ã‚¹å–å¾—
+		//DLLã®ãƒ‘ã‚¹ã‚’å…ƒã«LhaForgeã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’çµ„ã¿ç«‹ã¦ã‚‹
 		PathRemoveFileSpec(szExePath);
 
 		PathAppend(szExePath, _T("LhaForge.exe"));
@@ -727,28 +727,28 @@ void CMenuExtension::DoCommand(UINT inIdx)
 	}
 	CString CommandLine(szExePath);
 
-	//ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^‚ğİ’è
+	//ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š
 	CommandLine+=_T(" ");
-	CommandLine+=m_CmdParamArray[inIdx];	//ƒtƒ@ƒCƒ‹ˆ—ƒIƒvƒVƒ‡ƒ“
-	//‚±‚±‚Éˆ³k/‰ğ“€
+	CommandLine+=m_CmdParamArray[inIdx];	//ãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+	//ã“ã“ã«åœ§ç¸®/è§£å‡
 	if(m_bRightDrag){
 		CommandLine+=_T(" /o:");
-		CommandLine+=m_strTargetFolder;//Šù‚É•K—v‚Èê‡‚Í""‚ÅŠ‡‚ç‚ê‚Ä‚¢‚é
+		CommandLine+=m_strTargetFolder;//æ—¢ã«å¿…è¦ãªå ´åˆã¯""ã§æ‹¬ã‚‰ã‚Œã¦ã„ã‚‹
 	}else{
 		if(-1!=CommandLine.Find(OUTPUTDIR_DESKTOP)){
-			//ƒfƒXƒNƒgƒbƒv‚É‰ğ“€
+			//ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã«è§£å‡
 			TCHAR Buffer[_MAX_PATH+1]={0};
 			SHGetSpecialFolderPath(NULL,Buffer,CSIDL_DESKTOPDIRECTORY,FALSE);
 			PathQuoteSpaces(Buffer);
 			CommandLine.Replace(OUTPUTDIR_DESKTOP,Buffer);
 		}else if(-1!=CommandLine.Find(OUTPUTDIR_SAMEDIR)){
-			//“¯‚¶êŠ‚É‰ğ“€
+			//åŒã˜å ´æ‰€ã«è§£å‡
 			CPath strPath(m_SelFileArray[0]);
 			strPath.RemoveFileSpec();
 			strPath.QuoteSpaces();
 			CommandLine.Replace(OUTPUTDIR_SAMEDIR,strPath);
 		}else if(-1!=CommandLine.Find(OUTPUTDIR_SPECIFIED)){
-			//w’èêŠ‚É‰ğ“€
+			//æŒ‡å®šå ´æ‰€ã«è§£å‡
 			CString title;
 			UtilLoadString(IDS_INPUT_TARGET_FOLDER,title);
 			CFolderDialog dlg(NULL,title,BIF_RETURNONLYFSDIRS|BIF_NEWDIALOGSTYLE);
@@ -761,9 +761,9 @@ void CMenuExtension::DoCommand(UINT inIdx)
 		}
 	}
 
-	//ƒtƒ@ƒCƒ‹–¼‚ğ‡”Ô‚Éˆ—
+	//ãƒ•ã‚¡ã‚¤ãƒ«åã‚’é †ç•ªã«å‡¦ç†
 	if(m_SelFileArray.size()>16){
-		//ƒtƒ@ƒCƒ‹‚ª‘½‚¢‚Ì‚ÅƒŒƒXƒ|ƒ“ƒXƒtƒ@ƒCƒ‹‚ğg‚¤(”š‚Éª‹’–³‚µ)
+		//ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¤šã„ã®ã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½¿ã†(æ•°å­—ã«æ ¹æ‹ ç„¡ã—)
 		TCHAR szTempPath[_MAX_PATH+1];
 		{
 			TCHAR szTempDir[_MAX_PATH+1];
@@ -782,17 +782,17 @@ void CMenuExtension::DoCommand(UINT inIdx)
 			UtilWriteLine(hFile,m_SelFileArray[file_count]);
 		}
 		::CloseHandle(hFile);
-		//ƒŒƒXƒ|ƒ“ƒXƒtƒ@ƒCƒ‹‚Ìw’è
+		//ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®æŒ‡å®š
 
 #if defined(UNICODE)||defined(_UNICODE)
-		//ƒR[ƒhƒy[ƒWw’è
+		//ã‚³ãƒ¼ãƒ‰ãƒšãƒ¼ã‚¸æŒ‡å®š
 		CommandLine+=_T(" /cp:UNICODE");
 #endif
 
 		CommandLine+=_T(" \"/$");
 		CommandLine+=szTempPath;
 		CommandLine+=_T("\"");
-	}else{	//‚»‚Ì‚Ü‚ÜƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚É“n‚·
+	}else{	//ãã®ã¾ã¾ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã«æ¸¡ã™
 		for(UINT file_count=0;file_count<m_SelFileArray.size();file_count++){
 			if(-1!=m_SelFileArray[file_count].Find(_T(' '))){
 				//PathQuoteSpaces...
@@ -806,12 +806,12 @@ void CMenuExtension::DoCommand(UINT inIdx)
 		}
 	}
 
-	// ‹N“®ƒvƒƒZƒX‚Ì•\¦ƒEƒBƒ“ƒhƒE‚Ìİ’è
+	// èµ·å‹•ãƒ—ãƒ­ã‚»ã‚¹ã®è¡¨ç¤ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¨­å®š
 	STARTUPINFO theStartupInfo = {sizeof(STARTUPINFO)};
 	theStartupInfo.dwFlags = STARTF_USESHOWWINDOW;
 	theStartupInfo.wShowWindow = SW_SHOWDEFAULT;
 
-	// ƒvƒƒZƒX‹N“®iƒRƒ}ƒ“ƒhÀsj
+	// ãƒ—ãƒ­ã‚»ã‚¹èµ·å‹•ï¼ˆã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œï¼‰
 	PROCESS_INFORMATION	pi;
 	BOOL	result = ::CreateProcess(NULL,CommandLine.GetBuffer(CommandLine.GetLength()+1),
 						NULL,NULL,FALSE,CREATE_NEW_PROCESS_GROUP,
@@ -829,13 +829,13 @@ void CMenuExtension::DoCommand(UINT inIdx)
 			Message+=msg;
 		}
 
-		//ƒGƒ‰[ƒXƒgƒŠƒ“ƒOæ“¾
+		//ã‚¨ãƒ©ãƒ¼ã‚¹ãƒˆãƒªãƒ³ã‚°å–å¾—
 		{
 			TCHAR szBuffer[1024];
 			FormatMessage(
 				FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
 				NULL, GetLastError(),
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // ƒfƒtƒHƒ‹ƒgŒ¾Œê
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨€èª
 				szBuffer, 1024, NULL);
 			Message+=szBuffer;
 		}
@@ -846,7 +846,7 @@ void CMenuExtension::DoCommand(UINT inIdx)
 		}
 	}
 
-	//•s—v‚É‚È‚Á‚½ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ğˆ—
+	//ä¸è¦ã«ãªã£ãŸãƒ—ãƒ­ã‚»ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚’å‡¦ç†
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 }

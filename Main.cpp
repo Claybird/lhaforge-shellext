@@ -1,15 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////
+ï»¿/////////////////////////////////////////////////////////////////////////////
 //
 // Last update	$Date: 2013/04/06 13:41:17 $ UTC
 //   Revision   $Revision: 1.17 $
 //
 //	Renamed and Modified by Claybird <claybird.without.wing@gmail.com> 2005 May 23
-// Main.cpp :	DLL ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚ÌƒGƒ“ƒgƒŠ ƒ|ƒCƒ“ƒg‚ğ’è‹`
-//				LhaForgeŠg’£ƒVƒFƒ‹DLL
+// Main.cpp :	DLL ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®ã‚¨ãƒ³ãƒˆãƒª ãƒã‚¤ãƒ³ãƒˆã‚’å®šç¾©
+//				LhaForgeæ‹¡å¼µã‚·ã‚§ãƒ«DLL
 //
 //	Original File Information:
-// TfShell.cpp :	DLL ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚ÌƒGƒ“ƒgƒŠ ƒ|ƒCƒ“ƒg‚ğ’è‹`
-//					‘¼l‚Ìåì(TF)Šg’£ƒVƒFƒ‹DLL
+// TfShell.cpp :	DLL ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®ã‚¨ãƒ³ãƒˆãƒª ãƒã‚¤ãƒ³ãƒˆã‚’å®šç¾©
+//					ä»–äººã®è¤Œ(TF)æ‹¡å¼µã‚·ã‚§ãƒ«DLL
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -21,22 +21,22 @@
 
 
 #ifndef WIN64
-//‰EƒNƒŠƒbƒNƒƒjƒ…[ƒnƒ“ƒhƒ‰
+//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ©
 // {713B479F-6F2B-48e9-B545-5591CCFE398F}
 static const GUID CLSID_ShellExtShellMenu = 
 { 0x713b479f, 0x6f2b, 0x48e9, { 0xb5, 0x45, 0x55, 0x91, 0xcc, 0xfe, 0x39, 0x8f } };
 
-//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[ƒnƒ“ƒhƒ‰
+//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ©
 // {5E5B692B-D6ED-4103-A1FA-9A71A93DAC88}
 static const GUID CLSID_ShellExtDragMenu = 
 { 0x5e5b692b, 0xd6ed, 0x4103, { 0xa1, 0xfa, 0x9a, 0x71, 0xa9, 0x3d, 0xac, 0x88 } };
 #else //ifndef(WIN64)
-//‰EƒNƒŠƒbƒNƒƒjƒ…[ƒnƒ“ƒhƒ‰
+//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ©
 // {B7584D74-DE0C-4db5-80DD-42EEEDF42665}
 static const GUID CLSID_ShellExtShellMenu = 
 { 0xb7584d74, 0xde0c, 0x4db5, { 0x80, 0xdd, 0x42, 0xee, 0xed, 0xf4, 0x26, 0x65 } };
 
-//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[ƒnƒ“ƒhƒ‰
+//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ©
 // {00521ADB-148D-45c9-8021-7446EE35609D}
 static const GUID CLSID_ShellExtDragMenu = 
 { 0x521adb, 0x148d, 0x45c9, { 0x80, 0x21, 0x74, 0x46, 0xee, 0x35, 0x60, 0x9d } };
@@ -47,7 +47,7 @@ long		g_cDllRef		= 0;
 HINSTANCE	g_hInstDLL		= NULL;
 HWND		g_hWndMcpAppl	= NULL;
 
-//DLL‚ÉƒRƒƒ“ƒg‚ğ–„‚ß‚ñ‚Å‚¢‚é
+//DLLã«ã‚³ãƒ¡ãƒ³ãƒˆã‚’åŸ‹ã‚è¾¼ã‚“ã§ã„ã‚‹
 //#pragma comment(exestr,_T("Shell Extension Module for LhaForge by Claybird"))
 
 BOOL WINAPI DllMain(
@@ -56,7 +56,7 @@ BOOL WINAPI DllMain(
 	LPVOID		lpReserved)
 {
 #if defined(_DEBUG)
-	// ƒƒ‚ƒŠƒŠ[ƒNŒŸo—p
+	// ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºç”¨
 	_CrtSetDbgFlag(
 		_CRTDBG_ALLOC_MEM_DF
 		| _CRTDBG_LEAK_CHECK_DF
@@ -65,7 +65,7 @@ BOOL WINAPI DllMain(
 	UNREFERENCED_PARAMETER(lpReserved);
 
     if(dwReason == DLL_PROCESS_ATTACH){
-		_tsetlocale(LC_ALL,_T(""));	//ƒƒP[ƒ‹‚ğŠÂ‹«•Ï”‚©‚çæ“¾
+		_tsetlocale(LC_ALL,_T(""));	//ãƒ­ã‚±ãƒ¼ãƒ«ã‚’ç’°å¢ƒå¤‰æ•°ã‹ã‚‰å–å¾—
 		dprintf(_T("DllMain : DLL_PROCESS_ATTACH\n"));
 		g_hInstDLL = hInstance;
 
@@ -83,7 +83,7 @@ BOOL WINAPI DllMain(
     return 1;
 }
 
-// DLLƒAƒ“ƒ[ƒh‰Â”\‚©ƒ`ƒFƒbƒN
+// DLLã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰å¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯
 STDAPI DllCanUnloadNow(void)
 {
 	dprintf(_T("DllCanUnloadNow[%s(g_cDllRef=%d)]\n"),
@@ -92,7 +92,7 @@ STDAPI DllCanUnloadNow(void)
 }
 
 
-// ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ—v‹
+// ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªè¦æ±‚
 STDAPI DllGetClassObject(
 	REFCLSID	rclsid,
 	REFIID		riid,
@@ -105,26 +105,26 @@ STDAPI DllGetClassObject(
 
 	CShellExtClassFactory *pcf=NULL;
 	if(IsEqualIID(rclsid, CLSID_ShellExtShellMenu)){
-		//---‰EƒNƒŠƒbƒNƒƒjƒ…[
-		// ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ‚Ìì¬
+		//---å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+		// ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ä½œæˆ
 		pcf = new CShellExtClassFactory(false);
 		dprintf(_T("DllGetClassObject:new CShellExtClassFactory(%8X):ShellMenu\n"),pcf);
-		// ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì—v‹
+		// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®è¦æ±‚
 		hr = pcf->QueryInterface(riid, ppvOut);
 	}
 	else if(IsEqualIID(rclsid, CLSID_ShellExtDragMenu)){
-		//---‰Eƒhƒ‰ƒbƒOƒƒjƒ…[
-		// ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠ‚Ìì¬
+		//---å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+		// ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ä½œæˆ
 		pcf = new CShellExtClassFactory(true);
 		dprintf(_T("DllGetClassObject:new CShellExtClassFactory(%8X):DragMenu\n"),pcf);
-		// ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì—v‹
+		// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®è¦æ±‚
 		hr = pcf->QueryInterface(riid, ppvOut);
 	}
 
 	return hr;
 }
 
-// ƒŒƒWƒXƒgƒŠ“o˜^
+// ãƒ¬ã‚¸ã‚¹ãƒˆãƒªç™»éŒ²
 STDAPI DllRegisterServer()
 {
 	dprintf(_T("DllRegisterServer\n"));
@@ -134,7 +134,7 @@ STDAPI DllRegisterServer()
 }
 
 
-// ƒŒƒWƒXƒgƒŠ“o˜^‰ğœ
+// ãƒ¬ã‚¸ã‚¹ãƒˆãƒªç™»éŒ²è§£é™¤
 STDAPI DllUnregisterServer()
 {
 	dprintf(_T("DllUnregisterServer\n"));
@@ -144,7 +144,7 @@ STDAPI DllUnregisterServer()
 }
 
 #ifdef _DEBUG
-// ƒƒOo—Í
+// ãƒ­ã‚°å‡ºåŠ›
 extern void dprintf(LPCTSTR inFormat,...)
 {
 	TCHAR _szPath[_MAX_PATH+1];

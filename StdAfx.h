@@ -1,13 +1,13 @@
-// stdafx.h : �W���̃V�X�e�� �C���N���[�h �t�@�C���A
-//            �܂��͎Q�Ɖ񐔂������A�����܂�ύX����Ȃ�
-//            �v���W�F�N�g��p�̃C���N���[�h �t�@�C�����L�q���܂��B
+﻿// stdafx.h : 標準のシステム インクルード ファイル、
+//            または参照回数が多く、かつあまり変更されない
+//            プロジェクト専用のインクルード ファイルを記述します。
 //
 
 #pragma once
 #define ATL_NO_LEAN_AND_MEAN
 //#define _SECURE_ATL 0
 
-//ATL��CString���g��
+//ATLのCStringを使う
 #define _WTL_NO_CSTRING
 #include <windows.h>
 #include <shlobj.h>

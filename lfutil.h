@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "stdafx.h"
 #include "main.h"
 
@@ -9,7 +9,7 @@ static void UtilTraceLastError()
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
 		NULL, GetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // ƒfƒtƒHƒ‹ƒgŒ¾Œê
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨€èª
 		(LPTSTR)&lpMsgBuf, 0, NULL);
 	dprintf(_T("API Error : %s"),lpMsgBuf);
 	LocalFree(lpMsgBuf);
@@ -20,14 +20,14 @@ static void UtilTraceLastError()
 
 bool UtilInsertMenuItem(HMENU hMenu,LPCTSTR lpszCaption,int indexMenu,HMENU hSubMenu,WORD wID);
 
-//ƒtƒ@ƒCƒ‹‚Éˆês‘‚İ
+//ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¸€è¡Œæ›¸è¾¼ã¿
 bool UtilWriteLine(HANDLE hFile,LPCTSTR lpszText);
 
-//INI‚Éw’è‚³‚ê‚½ƒZƒNƒVƒ‡ƒ“‚ª‚ ‚é‚È‚çtrue‚ğ•Ô‚·
+//INIã«æŒ‡å®šã•ã‚ŒãŸã‚»ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹ãªã‚‰trueã‚’è¿”ã™
 bool UtilCheckINISectionExists(LPCTSTR lpAppName,LPCTSTR lpFileName);
 
-//ƒƒjƒ…[\¬‚ğ“Ç‚İ‚Ş(B2Eƒƒjƒ…[—p)
+//ãƒ¡ãƒ‹ãƒ¥ãƒ¼æ§‹æˆã‚’èª­ã¿è¾¼ã‚€(B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”¨)
 bool UtilReadMenuDefinitionFile(LPCTSTR lpFileName,std::vector<std::vector<CString> >&);
 
-//•¶š—ñ‚ğ“Ç‚İ‚Ş
+//æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€
 BOOL UtilLoadString(UINT nID,CString& strOut);

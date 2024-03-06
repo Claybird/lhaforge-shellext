@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 struct CConfigManager{
 	struct{
@@ -12,19 +12,19 @@ struct CConfigManager{
 		BOOL bExtract;
 	}DragMenu;
 
-	BOOL bXacRett;		//XacRettƒƒjƒ…[‚ğ—LŒø‚É‚·‚é‚È‚çtrue
-	BOOL bB2E;			//B2Eƒƒjƒ…[‚ğ—LŒø‚É‚·‚é‚È‚çtrue
-	BOOL bRightDrag;	//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[‚È‚çtrue
-	BOOL bExtraMenu;	//Šg’£ƒƒjƒ…[‚ğ•\¦‚·‚é‚È‚çtrue
-	BOOL bCustomCompress;	//ƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ˆ³kƒƒjƒ…[‚ğg‚¤‚È‚çtrue
-	TCHAR szCustomCompress[_MAX_PATH+1];	//ƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ˆ³kƒƒjƒ…[‚Ìƒf[ƒ^
-	BOOL bUnderSubMenu;	//uLhaForgevƒTƒuƒƒjƒ…[ˆÈ‰º‚É•ú‚è‚Ş
+	BOOL bXacRett;		//XacRettãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹ãªã‚‰true
+	BOOL bB2E;			//B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹ãªã‚‰true
+	BOOL bRightDrag;	//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãªã‚‰true
+	BOOL bExtraMenu;	//æ‹¡å¼µãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹ãªã‚‰true
+	BOOL bCustomCompress;	//ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸåœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’ä½¿ã†ãªã‚‰true
+	TCHAR szCustomCompress[_MAX_PATH+1];	//ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸåœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒ‡ãƒ¼ã‚¿
+	BOOL bUnderSubMenu;	//ã€ŒLhaForgeã€ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼ä»¥ä¸‹ã«æ”¾ã‚Šè¾¼ã‚€
 
-	std::vector<CUserMenuItem> UserMenuArray;	//ƒ†[ƒU[’è‹`ƒƒjƒ…[‚Ìƒf[ƒ^
-	std::vector<std::vector<CString> > B2ECompressMenu;	//B2Eƒƒjƒ…[‚Ì‚¤‚¿ˆ³kƒƒjƒ…[‚Ì“à—e
+	std::vector<CUserMenuItem> UserMenuArray;	//ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒ‡ãƒ¼ã‚¿
+	std::vector<std::vector<CString> > B2ECompressMenu;	//B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã†ã¡åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å†…å®¹
 
 	void LoadConfig(BOOL bRightDrag,BOOL bForceExtra);
-	void GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile);	//•W€‚Ìİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğƒZƒbƒg
+	void GetDefaultFilePath(CPath &strIniPath,LPCTSTR lpszFile);	//æ¨™æº–ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 
 	CConfigManager(){}
 	virtual ~CConfigManager(){}

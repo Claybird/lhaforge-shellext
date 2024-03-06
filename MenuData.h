@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 //#include "resource.h"
 
-//#define OUTPUTDIR_DEFAULT		_T(">?*DEFAULT*")	//’Êí‚ÌêŠ‚É‰ð“€
-#define OUTPUTDIR_DESKTOP		_T(">?*DESKTOP*")	//ƒfƒXƒNƒgƒbƒv‚É‰ð“€
-#define OUTPUTDIR_SAMEDIR		_T(">?*SAMEDIR*")	//“¯‚¶êŠ‚É‰ð“€
-#define OUTPUTDIR_SPECIFIED		_T(">?*SPECIFIED*")	//Žw’èêŠ‚É‰ð“€
-//#define OUTPUTDIR_HERE		_T">?*HERE*")		//‚±‚±‚É‰ð“€
+//#define OUTPUTDIR_DEFAULT		_T(">?*DEFAULT*")	//é€šå¸¸ã®å ´æ‰€ã«è§£å‡
+#define OUTPUTDIR_DESKTOP		_T(">?*DESKTOP*")	//ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã«è§£å‡
+#define OUTPUTDIR_SAMEDIR		_T(">?*SAMEDIR*")	//åŒã˜å ´æ‰€ã«è§£å‡
+#define OUTPUTDIR_SPECIFIED		_T(">?*SPECIFIED*")	//æŒ‡å®šå ´æ‰€ã«è§£å‡
+//#define OUTPUTDIR_HERE		_T">?*HERE*")		//ã“ã“ã«è§£å‡
 
-//ƒLƒƒƒvƒVƒ‡ƒ“–¼‚ÆLhaForge‚Ìˆ—ƒpƒ‰ƒ[ƒ^
+//ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³åã¨LhaForgeã®å‡¦ç†ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 struct SHELL_MENU_ITEM{
 	WORD Caption;
 	LPCTSTR Param;
@@ -18,15 +18,15 @@ struct SHELL_MENU_ITEM_CONTAINER{
 	size_t numItems;
 };
 
-struct CUserMenuItem{	//ƒ†[ƒU[’è‹`ƒƒjƒ…[‚Ì€–Ú’è‹`
+struct CUserMenuItem{	//ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®é …ç›®å®šç¾©
 	TCHAR	Caption[_MAX_PATH+1];
 	TCHAR	Param[_MAX_PATH+1];
-	BOOL	bShellMenu;		//‰EƒNƒŠƒbƒNƒƒjƒ…[‚Å•\Ž¦
-	BOOL	bDragMenu;		//‰Eƒhƒ‰ƒbƒOƒƒjƒ…[‚Å•\Ž¦
+	BOOL	bShellMenu;		//å³ã‚¯ãƒªãƒƒã‚¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§è¡¨ç¤º
+	BOOL	bDragMenu;		//å³ãƒ‰ãƒ©ãƒƒã‚°ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§è¡¨ç¤º
 };
 
 
-//ˆ³kƒƒjƒ…[
+//åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM g_CompressMenu[]={
 	{IDS_MENU_ITEM_CAPTION_LZH,_T("/c:lzh")},
 	{IDS_MENU_ITEM_CAPTION_ZIP,_T("/c:zip")},
@@ -49,7 +49,7 @@ const SHELL_MENU_ITEM g_CompressMenu[]={
 	{IDS_MENU_ITEM_CAPTION_COMPRESS_B2E,_T("/b2e /c")},
 };
 
-//”­“Wˆ³kƒƒjƒ…[
+//ç™ºå±•åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM
 	g_ExtraMenuLZH[]={
 		{IDS_MENU_ITEM_CAPTION_LZH,NULL},
@@ -138,7 +138,7 @@ const SHELL_MENU_ITEM_CONTAINER g_ExtraMenuTable[]={
 	ITEM_AND_COUNT(g_ExtraMenuAISH),
 };
 
-//‰ð“€ƒƒjƒ…[
+//è§£å‡ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM g_ExtractMenu[]={
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,_T("/e")},
 	{IDS_MENU_CAPTION_EXTRACT_DESKTOP,_T("/e /o:")OUTPUTDIR_DESKTOP},
@@ -146,7 +146,7 @@ const SHELL_MENU_ITEM g_ExtractMenu[]={
 	{IDS_MENU_CAPTION_EXTRACT_TARGET,_T("/e /o:")OUTPUTDIR_SPECIFIED}
 };
 
-//XacRettƒƒjƒ…[
+//XacRettãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM g_XacRettMenu[]={
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,_T("/xacrett /e")},
 	{IDS_MENU_CAPTION_EXTRACT_DESKTOP,_T("/xacrett /e /o:")OUTPUTDIR_DESKTOP},
@@ -155,7 +155,7 @@ const SHELL_MENU_ITEM g_XacRettMenu[]={
 	{IDS_MENU_CAPTION_LIST_XACRETT,_T("/xacrett /l")}
 };
 
-//B2Eƒƒjƒ…[
+//B2Eãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM g_B2EMenu[]={
 	{IDS_MENU_ITEM_CAPTION_COMPRESS_B2E,_T("/b2e /c")},
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,_T("/b2e /e")},
@@ -166,18 +166,18 @@ const SHELL_MENU_ITEM g_B2EMenu[]={
 };
 
 #ifndef MENUEDITOR
-//B2E(Drag)ƒƒjƒ…[
+//B2E(Drag)ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 const SHELL_MENU_ITEM g_B2EDragMenu[]={
 	{IDS_MENU_CAPTION_COMPRESS_DRAG,_T("/b2e /c")},
 	{IDS_MENU_CAPTION_EXTRACT_DRAG,_T("/b2e /e")},
 };
 #endif
 //-------------------------------------------------
-//ƒ†[ƒU[‚É‚æ‚éˆ³kƒƒjƒ…[ƒJƒXƒ^ƒ}ƒCƒY—pƒe[ƒuƒ‹
+//ãƒ¦ãƒ¼ã‚¶ãƒ¼ã«ã‚ˆã‚‹åœ§ç¸®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºç”¨ãƒ†ãƒ¼ãƒ–ãƒ«
 
 struct SHELL_MENU_ITEM_USER{
-	TCHAR Identifier;				//ƒƒjƒ…[ƒAƒCƒeƒ€Ž¯•Ê•¶Žš
-	const SHELL_MENU_ITEM *lpMenuItem;	//ƒƒjƒ…[ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	TCHAR Identifier;				//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ è­˜åˆ¥æ–‡å­—
+	const SHELL_MENU_ITEM *lpMenuItem;	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 };
 
 const SHELL_MENU_ITEM_USER g_UserMenuTable[]={
