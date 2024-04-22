@@ -28,6 +28,7 @@ extern CComModule _Module;
 #include <crtdbg.h>
 #include <locale.h>
 #include <Lmcons.h>
+#include <filesystem>
 
 #ifndef ASSERT
 #define ASSERT ATLASSERT
