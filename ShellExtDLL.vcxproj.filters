@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConfigManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lfutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,9 +35,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConfigManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lfutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>

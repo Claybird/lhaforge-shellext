@@ -148,7 +148,6 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="lfutil.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuExtension.cpp" />
@@ -160,7 +159,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="lfutil.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MenuData.h" />
