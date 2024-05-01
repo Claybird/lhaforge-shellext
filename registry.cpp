@@ -54,13 +54,10 @@ STDAPI RegisterServer(HMODULE hModule,REFCLSID clsid,bool bDrag)
 	//   "CLSID\xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 	CLSIDtoString(clsid, strCLSID);
 	strKey.Format(_T("CLSID\\%s"), strCLSID);
+	dprintf(L"%s\n", (LPCTSTR)strKey);
 
 	//レジストリに登録するアプリケーション名
-#ifndef WIN64
-	const LPCTSTR szAppName=_T("LhaForge");
-#else
-	const LPCTSTR szAppName=_T("LhaForge64");
-#endif// WIN64
+	const LPCTSTR szAppName=_T("LhaForge64_2");
 
 	// CLSIDとコンポーネント名を登録する。
 	SetKeyAndValue(HKEY_CLASSES_ROOT, strKey, NULL, szAppName);
@@ -92,11 +89,6 @@ STDAPI RegisterServer(HMODULE hModule,REFCLSID clsid,bool bDrag)
 		}
 	}
 
-
-	// NT/2000用の情報を登録するが、これには、Administrator権限が必要。
-	// 失敗した場合は、無視。
-	SetKeyAndValue(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"),strCLSID,szAppName);
-
 	return S_OK;
 }
 
@@ -116,11 +108,7 @@ STDAPI UnregisterServer(REFCLSID clsid,bool bDrag)
 
 
 	//レジストリに登録するアプリケーション名
-#ifndef WIN64
-	const LPCTSTR szAppName=_T("LhaForge");
-#else
-	const LPCTSTR szAppName=_T("LhaForge64");
-#endif// WIN64
+	const LPCTSTR szAppName=_T("LhaForge64_2");
 
 	if(bDrag){
 		//----------------------------------
@@ -143,9 +131,6 @@ STDAPI UnregisterServer(REFCLSID clsid,bool bDrag)
 			RecursiveDeleteKey(HKEY_CLASSES_ROOT,strKey);
 		}
 	}
-
-	// NT/2000用の情報を削除する。これには、Administrator権限が必要。
-	DeleteNamedValue(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"),strCLSID);
 
 	return S_OK ;
 }
@@ -178,20 +163,25 @@ static BOOL WINAPI SetKeyAndValue(HKEY inKeyRootH,LPCTSTR inKey,LPCTSTR inValueN
 							 NULL,
 							 &theKeyH,
 							 NULL);
+	dprintf(L"result=%d\n", result);
 	if(result != ERROR_SUCCESS){
 		return FALSE;
 	}
 
 	// 値を設定する。
 	if(inValue != NULL){
-		RegSetValueEx(theKeyH,
+		result = RegSetValueEx(theKeyH,
 					  inValueName,
 					  0,
 					  REG_SZ,
 					  (BYTE *)inValue,
 					  (DWORD)(_tcslen(inValue)+1)*sizeof(TCHAR));
+		dprintf(L"result=%d\n", result);
 	}
 	RegCloseKey(theKeyH);
+	if (result != ERROR_SUCCESS) {
+		return FALSE;
+	}
 	return TRUE;
 }
 
