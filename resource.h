@@ -1,11 +1,15 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ で生成されたインクルード ファイル。
+// resource.rc で使用
 //
 #define IDS_DEFAULT_MENU_CAPTION        1
 #define IDS_DEFAULT_STATUS_CAPTION      2
 #define IDS_MENU_CAPTION_B2E_COMPRESS_POPUP 3
+#define IDS_MENU_OTHER_OPERATIONS       3
 #define IDS_MENU_CAPTION_COMPRESS       4
+#define IDS_MENU_CAPTION_DETAIL         5
+#define IDS_MENU_CAPTION_OTHER          5
+#define IDS_MENU_CAPTION_OTHER_FORMATS  5
 #define IDS_ERROR_MSG_PARAM_OVERFLOW    9
 #define IDS_ERROR_MSG_FAILURE_EXECUTE   10
 #define IDS_PROGRAM_NAME                11
