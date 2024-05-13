@@ -160,6 +160,24 @@ void UtilExecuteCommand(const std::filesystem::path &exe, const std::wstring &ar
 	CloseHandle(pi.hThread);
 }
 
+
+std::filesystem::path UtilGetModulePath(HMODULE hModule)
+{
+	std::wstring name;
+	name.resize(256);
+	for (;;) {
+		DWORD bufsize = (DWORD)name.size();
+		auto nCopied = GetModuleFileNameW(hModule, &name[0], bufsize);
+		if (nCopied < bufsize) {
+			break;
+		} else {
+			name.resize(name.size() * 2);
+		}
+	}
+	return name.c_str();
+}
+
+
 struct SHELL_MENU_ITEM {
 	WORD wCaption;
 	std::wstring param;
@@ -381,14 +399,7 @@ private:
 	void _executeCommand(const std::wstring& arg, const std::vector<std::filesystem::path>& subjects) {
 		std::filesystem::path exePath;
 		{
-			std::vector<wchar_t> buf;
-			buf.resize(_MAX_PATH);
-			for (;;) {
-				::GetModuleFileNameW(g_hinst, &buf[0], (DWORD)buf.size());
-				if (GetLastError() != ERROR_INSUFFICIENT_BUFFER)break;
-				buf.resize(buf.size() + _MAX_PATH);
-			}
-			exePath = &buf[0];
+			exePath = UtilGetModulePath(g_hinst);
 			//executable in the same directory
 			exePath = exePath.parent_path();
 			exePath /= L"LhaForge.exe";

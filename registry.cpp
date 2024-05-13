@@ -21,21 +21,7 @@ std::wstring CLSIDtoString(REFCLSID clsid)
 	return buf;
 }
 
-std::filesystem::path UtilGetModulePath(HMODULE hModule)
-{
-	std::wstring name;
-	name.resize(256);
-	for (;;) {
-		DWORD bufsize = (DWORD)name.size();
-		auto nCopied = GetModuleFileNameW(hModule, &name[0], bufsize);
-		if (nCopied < bufsize) {
-			break;
-		} else {
-			name.resize(name.size() * 2);
-		}
-	}
-	return name.c_str();
-}
+std::filesystem::path UtilGetModulePath(HMODULE hModule);
 
 
 bool UtilSetKeyAndValue(HKEY root, const std::wstring& keyPath, const std::wstring& name, const std::wstring& value)
