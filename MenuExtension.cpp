@@ -139,34 +139,52 @@ bool UtilInsertMenuItem(HMENU hMenu, const wchar_t* lpszCaption, int indexMenu, 
 	}
 }
 
+void UtilExecuteCommand(const std::filesystem::path &exe, const std::wstring &args)
+{
+	STARTUPINFO theStartupInfo = { sizeof(STARTUPINFO) };
+	theStartupInfo.dwFlags = STARTF_USESHOWWINDOW;
+	theStartupInfo.wShowWindow = SW_SHOWDEFAULT;
+
+	std::wstring buf = L"\"" + exe.wstring() + L"\" " + args;
+
+	PROCESS_INFORMATION	pi = {};
+	BOOL result = ::CreateProcessW(nullptr, &buf[0],
+		nullptr, nullptr, FALSE, CREATE_NEW_PROCESS_GROUP,
+		nullptr, nullptr, &theStartupInfo, &pi);
+
+	if (!result) {
+		::MessageBeep(MB_ICONEXCLAMATION);
+	}
+
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+}
+
 struct SHELL_MENU_ITEM {
 	WORD wCaption;
 	std::wstring param;
 	std::vector<SHELL_MENU_ITEM> children;
 };
 
-//TODO
 const std::vector<SHELL_MENU_ITEM> g_other_formats = {
 	{ IDS_MENU_ITEM_CAPTION_ZIP,L"",{
 		{IDS_MENU_ITEM_CAPTION_ZIP,L"/c:zip"},
 		{IDS_MENU_ITEM_CAPTION_ZIP_PASS,L"/c:zippass"},
 		},
 	},
-	{ IDS_MENU_ITEM_CAPTION_7Z,L"",{
-		{IDS_MENU_ITEM_CAPTION_7Z,L"/c:7z"},
-		{IDS_MENU_ITEM_CAPTION_7Z_PASS,L"/c:7zpass"},
-		},
-	},
+	{IDS_MENU_ITEM_CAPTION_7Z,L"/c:7z"},
 	{IDS_MENU_ITEM_CAPTION_TAR_RELATED,L"",{
 		{IDS_MENU_ITEM_CAPTION_TAR,L"/c:tar"},
 		{IDS_MENU_ITEM_CAPTION_GZ,L"/c:gz"},
 		{IDS_MENU_ITEM_CAPTION_BZ2,L"/c:bz2"},
 		{IDS_MENU_ITEM_CAPTION_XZ,L"/c:xz"},
 		{IDS_MENU_ITEM_CAPTION_LZMA,L"/c:lzma"},
-		{IDS_MENU_ITEM_CAPTION_TGZ,L"/c:tgz"},
-		{IDS_MENU_ITEM_CAPTION_TBZ,L"/c:tbz"},
-		{IDS_MENU_ITEM_CAPTION_TXZ,L"/c:txz"},
-		{IDS_MENU_ITEM_CAPTION_TLZ,L"/c:tlz"},
+		{IDS_MENU_ITEM_CAPTION_ZSTD, L"/c:zstd"},
+		{IDS_MENU_ITEM_CAPTION_TGZ,L"/c:tar+gz"},
+		{IDS_MENU_ITEM_CAPTION_TBZ,L"/c:tar+bz2"},
+		{IDS_MENU_ITEM_CAPTION_TXZ,L"/c:tar+xz"},
+		{IDS_MENU_ITEM_CAPTION_TLZ,L"/c:tar+lzma"},
+		{IDS_MENU_ITEM_CAPTION_TAR_ZSTD, L"/c:tar+zstd"},
 		},
 	},
 };
@@ -181,7 +199,7 @@ const std::vector<SHELL_MENU_ITEM> g_other_operations = {
 };
 
 const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
-	{IDS_MENU_ITEM_CAPTION_ZIP, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,L"/e"},
@@ -189,7 +207,7 @@ const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
 };
 
 const std::vector<SHELL_MENU_ITEM> g_contextMenu = {
-	{IDS_MENU_ITEM_CAPTION_ZIP/*TODO*/, L"", g_contextMenuSub},
+	{IDS_PROGRAM_NAME, L"", g_contextMenuSub},
 };
 
 const std::vector<SHELL_MENU_ITEM> g_other_operations_dnd = {
@@ -200,7 +218,7 @@ const std::vector<SHELL_MENU_ITEM> g_other_operations_dnd = {
 };
 
 const std::vector<SHELL_MENU_ITEM> g_dragMenuSub = {
-	{IDS_MENU_ITEM_CAPTION_ZIP, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,L"/e"},
@@ -208,7 +226,7 @@ const std::vector<SHELL_MENU_ITEM> g_dragMenuSub = {
 };
 
 const std::vector<SHELL_MENU_ITEM> g_dragMenu = {
-	{IDS_MENU_ITEM_CAPTION_ZIP/*TODO*/, L"", g_dragMenuSub},
+	{IDS_PROGRAM_NAME, L"", g_dragMenuSub},
 };
 
 class CLFMenuExtension : public IContextMenu, public IShellExtInit
@@ -372,6 +390,7 @@ private:
 			}
 			exePath = &buf[0];
 			//executable in the same directory
+			exePath = exePath.parent_path();
 			exePath /= L"LhaForge.exe";
 		}
 
@@ -394,54 +413,13 @@ private:
 
 			strCommandLine += L" /cp:UNICODE";
 
-			strCommandLine += L" \"/$";
+			strCommandLine += L" /$:\"";
 			strCommandLine += tempPath.wstring();
 			strCommandLine += L"\"";
 		}
-		::MessageBoxW(NULL, strCommandLine.c_str(), exePath.c_str(), MB_OK);
-		/*
-		TODO
-		// 起動プロセスの表示ウィンドウの設定
-		STARTUPINFO theStartupInfo = { sizeof(STARTUPINFO) };
-		theStartupInfo.dwFlags = STARTF_USESHOWWINDOW;
-		theStartupInfo.wShowWindow = SW_SHOWDEFAULT;
 
-		// プロセス起動（コマンド実行）
-		PROCESS_INFORMATION	pi;
-		BOOL	result = ::CreateProcess(NULL, CommandLine.GetBuffer(CommandLine.GetLength() + 1),
-			NULL, NULL, FALSE, CREATE_NEW_PROCESS_GROUP,
-			NULL, NULL, &theStartupInfo, &pi);
-		CommandLine.ReleaseBuffer();
-
-		if (!result) {
-			CString Message = szExePath;
-			Message += _T("\n");
-			{
-				CString msg;
-				UtilLoadString(IDS_ERROR_MSG_FAILURE_EXECUTE, msg);
-				Message += msg;
-			}
-
-			//エラーストリング取得
-			{
-				TCHAR szBuffer[1024];
-				FormatMessage(
-					FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL, GetLastError(),
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // デフォルト言語
-					szBuffer, 1024, NULL);
-				Message += szBuffer;
-			}
-			{
-				CString title;
-				UtilLoadString(IDS_PROGRAM_NAME, title);
-				MessageBox(NULL, Message, title, MB_OK | MB_ICONSTOP);
-			}
-		}
-
-		//不要になったプロセスハンドルを処理
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);*/
+		//run
+		UtilExecuteCommand(exePath, strCommandLine);
 	}
 
 	//----------------
