@@ -419,7 +419,7 @@ private:
 			CAutoFile fp;
 			fp.open(tempPath, L"wb");
 			for(const auto& fname: subjects){
-				fwprintf(fp, L"%s\n", fname.c_str());
+				fwprintf_s(fp, L"%s\n", fname.c_str());
 			}
 
 			strCommandLine += L" /cp:UNICODE";
