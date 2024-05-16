@@ -408,9 +408,9 @@ private:
 		std::wstring strCommandLine;
 		strCommandLine += arg;
 		if (!_isContextMenu) {
-			strCommandLine += L"/o:\"";
+			strCommandLine += L" /o:\"";
 			strCommandLine += _targetFolder.make_preferred().wstring();
-			strCommandLine += L"\"";
+			strCommandLine += L"\" ";
 		}
 
 		//make filelist
