@@ -24,7 +24,7 @@ std::wstring CLSIDtoString(REFCLSID clsid)
 std::filesystem::path UtilGetModulePath(HMODULE hModule);
 
 
-bool UtilSetKeyAndValue(HKEY root, const std::wstring& keyPath, const std::wstring& name, const std::wstring& value)
+LSTATUS UtilSetKeyAndValue(HKEY root, const std::wstring& keyPath, const std::wstring& name, const std::wstring& value)
 {
 	auto result = RegSetKeyValueW(root,
 		keyPath.c_str(),
@@ -33,60 +33,74 @@ bool UtilSetKeyAndValue(HKEY root, const std::wstring& keyPath, const std::wstri
 		(const BYTE*)value.c_str(),
 		(DWORD)(wcslen(value.c_str()) + 1) * sizeof(wchar_t));
 
-	return result == ERROR_SUCCESS;
+	return result;
 }
-
 
 HRESULT UtilRegisterServer(HMODULE hModule,REFCLSID clsid)
 {
 	const auto strCLSID = CLSIDtoString(clsid);
+	HRESULT hr, final_result = S_OK;
 	{
-		auto dllPath = UtilGetModulePath(hModule);
 		auto strKey = L"CLSID\\" + strCLSID;
-		UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", APPNAME);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", APPNAME);
+		if(FAILED(hr))final_result = hr;
+
 		//module path
 		strKey = L"CLSID\\" + strCLSID + L"\\InprocServer32";
-		UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", dllPath.wstring());
-		UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"ThreadingModel", L"Apartment");
+		auto dllPath = UtilGetModulePath(hModule);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", dllPath.wstring());
+		if (FAILED(hr))final_result = hr;
+
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"ThreadingModel", L"Apartment");
+		if (FAILED(hr))final_result = hr;
 	}
 
 	if (IsEqualCLSID(clsid, CLSID_LFDragMenu)) {
 		auto dirHandler = Format(L"Directory\\shellex\\DragDropHandlers\\%s", APPNAME);
-		UtilSetKeyAndValue(HKEY_CLASSES_ROOT, dirHandler, L"", strCLSID);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, dirHandler, L"", strCLSID);
+		if (FAILED(hr))final_result = hr;
 
 		auto driveHandler = Format(L"Drive\\shellex\\DragDropHandlers\\%s", APPNAME);
-		UtilSetKeyAndValue(HKEY_CLASSES_ROOT, driveHandler, L"", strCLSID);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, driveHandler, L"", strCLSID);
+		if (FAILED(hr))final_result = hr;
 	}else{
 		for(const auto &ext: g_extensions){
 			auto handler = Format(L"%s\\shellex\\ContextMenuHandlers\\%s", ext.c_str(), APPNAME);
-			UtilSetKeyAndValue(HKEY_CLASSES_ROOT,handler,L"",strCLSID);
+			hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT,handler,L"",strCLSID);
+			if (FAILED(hr))final_result = hr;
 		}
 	}
 
-	return S_OK;
+	return final_result;
 }
 
 
 HRESULT UtilUnregisterServer(REFCLSID clsid)
 {
+	HRESULT hr, final_result = S_OK;
 	const auto strCLSID = CLSIDtoString(clsid);
 	{
 		auto strKey = L"CLSID\\" + strCLSID;
-		RegDeleteTreeW(HKEY_CLASSES_ROOT, strKey.c_str());
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, strKey.c_str());
+		if (FAILED(hr))final_result = hr;
 	}
 
 	if (IsEqualCLSID(clsid, CLSID_LFDragMenu)) {
 		auto dirHandler = Format(L"Directory\\shellex\\DragDropHandlers\\%s", APPNAME);
-		RegDeleteTreeW(HKEY_CLASSES_ROOT, dirHandler.c_str());
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, dirHandler.c_str());
+		if (FAILED(hr))final_result = hr;
+
 		auto driveHandler = Format(L"Drive\\shellex\\DragDropHandlers\\%s", APPNAME);
-		RegDeleteTreeW(HKEY_CLASSES_ROOT, driveHandler.c_str());
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, driveHandler.c_str());
+		if (FAILED(hr))final_result = hr;
 	}else{
 		for (const auto& ext : g_extensions) {
 			auto handler = Format(L"%s\\shellex\\ContextMenuHandlers\\%s", ext.c_str(), APPNAME);
-			RegDeleteTreeW(HKEY_CLASSES_ROOT, handler.c_str());
+			hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, handler.c_str());
+			if (FAILED(hr))final_result = hr;
 		}
 	}
 
-	return S_OK;
+	return final_result;
 }
 
