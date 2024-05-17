@@ -357,7 +357,6 @@ private:
 				_cmdArgs.push_back(item.param);
 			} else {
 				HMENU hSubMenu = ::CreatePopupMenu();
-				_menuHandles.push_back(hSubMenu);
 				UtilInsertMenuItem(hMenu, caption.c_str(), idx, hSubMenu, 0);
 				_cmdArgs.push_back(item.param);	//could be dummy
 
@@ -440,7 +439,6 @@ private:
 	IDataObject* _pdtobj;       // data object
 
 	std::vector<std::wstring> _cmdArgs;
-	std::vector<HMENU>	_menuHandles;
 };
 
 
