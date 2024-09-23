@@ -1,267 +1,106 @@
-/////////////////////////////////////////////////////////////////////////////
-//
-// Last update	$Date: 2009/12/20 12:03:28 $ UTC
-//   Revision   $Revision: 1.14 $
-//
-//	Modified by Claybird <claybird.without.wing@gmail.com>
-//
-// registry.cpp :	ƒŒƒWƒXƒgƒŠ‚Ö‚Ì“o˜^‚Æíœ‚Ì’è‹`
-//					LhaForgeŠg’£ƒƒjƒ…[
-//
-//	Original File Information:
-// registry.cpp :	ƒŒƒWƒXƒgƒŠ‚Ö‚Ì“o˜^‚Æíœ‚Ì’è‹`
-//					‘¼l‚Ìåì(TF)Šg’£ƒƒjƒ…[
-//
-/////////////////////////////////////////////////////////////////////////////
+ï»¿//https://learn.microsoft.com/en-us/windows/win32/shell/samples-nondefaultdropmenuverb
 
-#include "stdafx.h"
+#include "priv.h"
 
-#include "registry.h"
-#include "main.h"
-#include "resource.h"
+const wchar_t* APPNAME = L"LhaForge2";
 
-const int CLSID_STRING_SIZE=(39+1);
-
-extern	HINSTANCE	g_hInstDLL;
-
-// ƒVƒFƒ‹ƒGƒNƒXƒeƒ“ƒVƒ‡ƒ“‚ğ“o˜^‚·‚éŠg’£qˆê——
-static const TCHAR *g_ExtList[] =
+const std::vector<std::wstring> g_extensions =
 {
-	_T("*"),	//‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹
-	_T("Directory"),//ƒtƒHƒ‹ƒ_
-	_T("Drive"),	//ƒhƒ‰ƒCƒu
-	NULL
+	L"*",
+	L"Directory",
+	L"Drive",
 };
 
-//ƒvƒƒgƒ^ƒCƒvéŒ¾
-void WINAPI CLSIDtoString(REFCLSID, CString&);
-BOOL WINAPI SetKeyAndValue(HKEY, LPCTSTR, LPCTSTR, LPCTSTR);
-LONG RecursiveDeleteKey(HKEY, LPCTSTR);
-BOOL DeleteNamedValue(HKEY, LPCTSTR, LPCTSTR);
 
-//-----------
-
-STDAPI RegisterServer(HMODULE hModule,REFCLSID clsid,bool bDrag)
+std::wstring CLSIDtoString(REFCLSID clsid)
 {
-	TCHAR szDllPath[_MAX_PATH+1];
-	CString strCLSID;
-	CString	strKey;
+	const int CLSID_STRING_SIZE = (39 + 1);
+	wchar_t buf[CLSID_STRING_SIZE + 1] = {};
 
-	// “o˜^—p‚ÉDLL‚Ìƒtƒ‹ƒpƒX‚ğæ“¾‚·‚éB
-	GetModuleFileName(hModule, szDllPath, _MAX_PATH);
+	StringFromGUID2(clsid, buf, CLSID_STRING_SIZE);
+	return buf;
+}
 
-	// “n‚³‚ê‚½ƒNƒ‰ƒXID‚©‚çAƒŒƒWƒXƒgƒŠƒL[–¼‚ğì¬‚·‚éB
-	//   "CLSID\xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-	CLSIDtoString(clsid, strCLSID);
-	strKey.Format(_T("CLSID\\%s"), strCLSID);
+std::filesystem::path UtilGetModulePath(HMODULE hModule);
 
-	//ƒŒƒWƒXƒgƒŠ‚É“o˜^‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼
-#ifndef WIN64
-	const LPCTSTR szAppName=_T("LhaForge");
-#else
-	const LPCTSTR szAppName=_T("LhaForge64");
-#endif// WIN64
 
-	// CLSID‚ÆƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğ“o˜^‚·‚éB
-	SetKeyAndValue(HKEY_CLASSES_ROOT, strKey, NULL, szAppName);
+LSTATUS UtilSetKeyAndValue(HKEY root, const std::wstring& keyPath, const std::wstring& name, const std::wstring& value)
+{
+	auto result = RegSetKeyValueW(root,
+		keyPath.c_str(),
+		name.c_str(),
+		REG_SZ,
+		(const BYTE*)value.c_str(),
+		(DWORD)(wcslen(value.c_str()) + 1) * sizeof(wchar_t));
 
-	// Àsƒ‚ƒWƒ…[ƒ‹î•ñ‚ğ“o˜^‚·‚éB
-	strKey+=_T("\\InprocServer32");
-	SetKeyAndValue(HKEY_CLASSES_ROOT, strKey, NULL, szDllPath);
-	SetKeyAndValue(HKEY_CLASSES_ROOT, strKey, _T("ThreadingModel"), _T("Apartment"));
+	return result;
+}
 
-	if(bDrag){
-		//----------------------------------
-		// ‰Eƒhƒ‰ƒbƒOƒƒjƒ…[ƒnƒ“ƒhƒ‰‚Ì“o˜^
-		//----------------------------------
-		// Folder ‚Ì ƒhƒ‰ƒbƒO&ƒhƒƒbƒvƒnƒ“ƒhƒ‰ ‚Æ‚µ‚Ä“o˜^
-		CString strDnDHandlerKey;
-		strDnDHandlerKey.Format(_T("Folder\\shellex\\DragDropHandlers\\%s"), szAppName);
-		SetKeyAndValue(HKEY_CLASSES_ROOT,strDnDHandlerKey,NULL,strCLSID);
-		// Drive ‚Ì ƒhƒ‰ƒbƒO&ƒhƒƒbƒvƒnƒ“ƒhƒ‰ ‚Æ‚µ‚Ä“o˜^
-		strDnDHandlerKey.Format(_T("Drive\\shellex\\DragDropHandlers\\%s"), szAppName);
-		SetKeyAndValue(HKEY_CLASSES_ROOT,strDnDHandlerKey,NULL,strCLSID);
+HRESULT UtilRegisterServer(HMODULE hModule,REFCLSID clsid)
+{
+	const auto strCLSID = CLSIDtoString(clsid);
+	HRESULT hr, final_result = S_OK;
+	{
+		auto strKey = L"CLSID\\" + strCLSID;
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", APPNAME);
+		if(FAILED(hr))final_result = hr;
+
+		//module path
+		strKey = L"CLSID\\" + strCLSID + L"\\InprocServer32";
+		auto dllPath = UtilGetModulePath(hModule);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"", dllPath.wstring());
+		if (FAILED(hr))final_result = hr;
+
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, strKey, L"ThreadingModel", L"Apartment");
+		if (FAILED(hr))final_result = hr;
+	}
+
+	if (IsEqualCLSID(clsid, CLSID_LFDragMenu)) {
+		auto dirHandler = Format(L"Directory\\shellex\\DragDropHandlers\\%s", APPNAME);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, dirHandler, L"", strCLSID);
+		if (FAILED(hr))final_result = hr;
+
+		auto driveHandler = Format(L"Drive\\shellex\\DragDropHandlers\\%s", APPNAME);
+		hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT, driveHandler, L"", strCLSID);
+		if (FAILED(hr))final_result = hr;
 	}else{
-		//----------------------------------
-		// ‰EƒNƒŠƒbƒNƒƒjƒ…[ƒnƒ“ƒhƒ‰‚Ì“o˜^
-		//----------------------------------
-		// ŠeŠg’£q–ˆ‚ÌContextMenuHandlersƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚éB
-		for(int i = 0; g_ExtList[i]; i++){
-			strKey.Format(_T("%s\\shellex\\ContextMenuHandlers\\%s"),g_ExtList[i],szAppName);
-			SetKeyAndValue(HKEY_CLASSES_ROOT,strKey,NULL,strCLSID);
+		for(const auto &ext: g_extensions){
+			auto handler = Format(L"%s\\shellex\\ContextMenuHandlers\\%s", ext.c_str(), APPNAME);
+			hr = UtilSetKeyAndValue(HKEY_CLASSES_ROOT,handler,L"",strCLSID);
+			if (FAILED(hr))final_result = hr;
 		}
 	}
 
-
-	// NT/2000—p‚Ìî•ñ‚ğ“o˜^‚·‚é‚ªA‚±‚ê‚É‚ÍAAdministratorŒ ŒÀ‚ª•K—vB
-	// ¸”s‚µ‚½ê‡‚ÍA–³‹B
-	SetKeyAndValue(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"),strCLSID,szAppName);
-
-	return S_OK;
+	return final_result;
 }
 
 
-STDAPI UnregisterServer(REFCLSID clsid,bool bDrag)
+HRESULT UtilUnregisterServer(REFCLSID clsid)
 {
-	CString strCLSID;
-	CString	strKey;
+	HRESULT hr, final_result = S_OK;
+	const auto strCLSID = CLSIDtoString(clsid);
+	{
+		auto strKey = L"CLSID\\" + strCLSID;
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, strKey.c_str());
+		if (FAILED(hr))final_result = hr;
+	}
 
-	// “n‚³‚ê‚½ƒNƒ‰ƒXID‚©‚çAƒŒƒWƒXƒgƒŠƒL[–¼‚ğì¬‚·‚éB
-	//   "CLSID\xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-	CLSIDtoString(clsid, strCLSID);
-	strKey.Format(_T("CLSID\\%s"), strCLSID);
+	if (IsEqualCLSID(clsid, CLSID_LFDragMenu)) {
+		auto dirHandler = Format(L"Directory\\shellex\\DragDropHandlers\\%s", APPNAME);
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, dirHandler.c_str());
+		if (FAILED(hr))final_result = hr;
 
-	// "HKEY_CLASSES_ROOT\CLSID"’¼‰º‚©‚çAƒNƒ‰ƒXID‚ÌƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-	RecursiveDeleteKey(HKEY_CLASSES_ROOT, strKey);
-
-
-	//ƒŒƒWƒXƒgƒŠ‚É“o˜^‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼
-#ifndef WIN64
-	const LPCTSTR szAppName=_T("LhaForge");
-#else
-	const LPCTSTR szAppName=_T("LhaForge64");
-#endif// WIN64
-
-	if(bDrag){
-		//----------------------------------
-		// ‰Eƒhƒ‰ƒbƒOƒƒjƒ…[ƒnƒ“ƒhƒ‰‚Ì‰ğœ
-		//----------------------------------
-		// Folder ‚Ì ƒhƒ‰ƒbƒO&ƒhƒƒbƒvƒnƒ“ƒhƒ‰ ‚ğ‰ğœ
-		CString strDnDHandlerKey;
-		strDnDHandlerKey.Format(_T("Folder\\shellex\\DragDropHandlers\\%s"), szAppName);
-		RecursiveDeleteKey(HKEY_CLASSES_ROOT,strDnDHandlerKey);
-		// Drive ‚Ì ƒhƒ‰ƒbƒO&ƒhƒƒbƒvƒnƒ“ƒhƒ‰ ‚ğ‰ğœ
-		strDnDHandlerKey.Format(_T("Drive\\shellex\\DragDropHandlers\\%s"), szAppName);
-		RecursiveDeleteKey(HKEY_CLASSES_ROOT,strDnDHandlerKey);
+		auto driveHandler = Format(L"Drive\\shellex\\DragDropHandlers\\%s", APPNAME);
+		hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, driveHandler.c_str());
+		if (FAILED(hr))final_result = hr;
 	}else{
-		//----------------------------------
-		// ‰EƒNƒŠƒbƒNƒƒjƒ…[ƒnƒ“ƒhƒ‰‚Ì‰ğœ
-		//----------------------------------
-		// ŠeŠg’£q–ˆ‚ÌContextMenuHandlersƒnƒ“ƒhƒ‰‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-		for(int i = 0; g_ExtList[i]; i++){
-			strKey.Format(_T("%s\\shellex\\ContextMenuHandlers\\%s"),g_ExtList[i],szAppName);
-			RecursiveDeleteKey(HKEY_CLASSES_ROOT,strKey);
+		for (const auto& ext : g_extensions) {
+			auto handler = Format(L"%s\\shellex\\ContextMenuHandlers\\%s", ext.c_str(), APPNAME);
+			hr = RegDeleteTreeW(HKEY_CLASSES_ROOT, handler.c_str());
+			if (FAILED(hr))final_result = hr;
 		}
 	}
 
-	// NT/2000—p‚Ìî•ñ‚ğíœ‚·‚éB‚±‚ê‚É‚ÍAAdministratorŒ ŒÀ‚ª•K—vB
-	DeleteNamedValue(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"),strCLSID);
-
-	return S_OK ;
+	return final_result;
 }
 
-
-// CLSID‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
-static void WINAPI CLSIDtoString(REFCLSID clsid,CString &strCLSID)
-{
-	WCHAR theCLSID[CLSID_STRING_SIZE+1];
-
-	// ƒNƒ‰ƒXID‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
-	StringFromGUID2(clsid, theCLSID, CLSID_STRING_SIZE);
-	strCLSID=theCLSID;
-	dprintf(_T("CLSID=%s\n"),(LPCTSTR)strCLSID);
-}
-
-
-static BOOL WINAPI SetKeyAndValue(HKEY inKeyRootH,LPCTSTR inKey,LPCTSTR inValueName,LPCTSTR inValue)
-{
-	HKEY theKeyH;
-	long result;
-
-	// ì¬‚µ‚½ƒL[–¼‚ÅƒL[‚ğì¬oræ“¾‚·‚éB
-	result = RegCreateKeyEx(inKeyRootH,
-							 inKey,
-							 0,
-							 NULL,
-							 REG_OPTION_NON_VOLATILE,
-							 KEY_ALL_ACCESS,
-							 NULL,
-							 &theKeyH,
-							 NULL);
-	if(result != ERROR_SUCCESS){
-		return FALSE;
-	}
-
-	// ’l‚ğİ’è‚·‚éB
-	if(inValue != NULL){
-		RegSetValueEx(theKeyH,
-					  inValueName,
-					  0,
-					  REG_SZ,
-					  (BYTE *)inValue,
-					  (DWORD)(_tcslen(inValue)+1)*sizeof(TCHAR));
-	}
-	RegCloseKey(theKeyH);
-	return TRUE;
-}
-
-
-// Ä‹N“IƒŒƒWƒXƒgƒŠíœ
-static LONG RecursiveDeleteKey(HKEY inKeyParentH,LPCTSTR inKeyChild)
-{
-	HKEY theKeyChildH;
-	long theRes;
-	FILETIME theTime;
-	TCHAR theBuffer[256];
-	DWORD theSize;
-
-	// Open the child.
-	theRes = RegOpenKeyEx(inKeyParentH, inKeyChild, 0, KEY_ALL_ACCESS, &theKeyChildH);
-	if(theRes != ERROR_SUCCESS){
-		return theRes;
-	}
-
-	// Enumerate all of the decendents of this child.
-	theSize = 256;
-	while(RegEnumKeyEx(theKeyChildH, 0, theBuffer, &theSize, NULL, NULL, NULL, &theTime) == S_OK){
-		// Delete the decendents of this child.
-		theRes = RecursiveDeleteKey(theKeyChildH, theBuffer);
-		if(theRes != ERROR_SUCCESS){
-			// Cleanup before exiting.
-			RegCloseKey(theKeyChildH);
-			return theRes;
-		}
-		theSize = 256;
-	}
-
-	// Close the child.
-	RegCloseKey(theKeyChildH);
-
-	// Delete this child.
-	return RegDeleteKey(inKeyParentH, inKeyChild);
-}
-
-
-// –¼‘O•t‚«’l‚Ìíœ
-static BOOL DeleteNamedValue(HKEY inKeyRootH,LPCTSTR inSubKey,LPCTSTR inValueName)
-{
-	HKEY theKeyH;
-	long result;
-	DWORD theDisposition;
-
-	result = RegCreateKeyEx(inKeyRootH,
-							 inSubKey,
-							 0,
-							 NULL,
-							 REG_OPTION_NON_VOLATILE,
-							 KEY_ALL_ACCESS,
-							 NULL,
-							 &theKeyH,
-							 &theDisposition);
-	if(result != ERROR_SUCCESS){
-		return FALSE;
-	}
-
-	if(theDisposition == REG_CREATED_NEW_KEY){
-		// V‚µ‚¢ƒL[‚ğì¬‚µ‚Ä‚µ‚Ü‚Á‚½ê‡‚ÍA
-		// ‚»‚ÌƒL[‚ğíœ‚µ‚ÄAˆ—‚ğI—¹‚·‚éB
-		RegCloseKey(theKeyH);
-		RegDeleteKey(inKeyRootH, inSubKey);
-		return FALSE;
-	}
-
-	// –¼‘O•t‚«’l‚ÌíœB
-	RegDeleteValue(theKeyH, inValueName);
-	RegCloseKey(theKeyH);
-	return TRUE;
-}

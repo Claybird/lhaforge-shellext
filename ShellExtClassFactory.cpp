@@ -1,139 +1,147 @@
-/////////////////////////////////////////////////////////////////////////////
-//
-// Last update	$Date: 2010/12/05 06:24:46 $ UTC
-//   Revision   $Revision: 1.10 $
-//
-//	Modified by Claybird <claybird.without.wing@gmail.com>
-//
-// ShellExtClassFactory.cpp : ÉVÉFÉãägí£ ÉNÉâÉXÉtÉ@ÉNÉgÉäÅ[ÉNÉâÉXÇÃíËã`
-//
-/////////////////////////////////////////////////////////////////////////////
+Ôªø//https://learn.microsoft.com/en-us/windows/win32/shell/samples-nondefaultdropmenuverb
 
-#include "stdafx.h"
-#include "ShellExtClassFactory.h"
-#include "resource.h"
-#include "MenuData.h"
-#include "MenuExtension.h"
-#include "Main.h"
+#include "priv.h"
 
-/*-------------------------------------------------------------------------*/
-// CShellExtClassFactory	ÉRÉìÉXÉgÉâÉNÉ^ÅEÉfÉXÉgÉâÉNÉ^
-/*-------------------------------------------------------------------------*/
+//-----
+long g_cRefModule = 0;
 
-// CShellExtClassFactory
-CShellExtClassFactory::CShellExtClassFactory(bool bRightDrag)
-	: m_cRef(0L),IsRightDrag(bRightDrag)
+// Handle the the DLL's module
+HINSTANCE g_hinst = NULL;
+
+// Standard DLL functions
+STDAPI_(BOOL) DllMain(HINSTANCE hInstance, DWORD dwReason, void*)
 {
-	dprintf(_T("CShellExtClassFactory::CShellExtClassFactory\n"));
-
-	InterlockedIncrement(&g_cDllRef);	
-}
-
-// ~CShellExtClassFactory
-CShellExtClassFactory::~CShellExtClassFactory()
-{
-	dprintf(_T("CShellExtClassFactory::~CShellExtClassFactory\n"));
-
-	InterlockedDecrement(&g_cDllRef);
-}
-
-/*-------------------------------------------------------------------------*/
-// CShellExtClassFactory	
-//
-//			IUnknown ÉCÉìÉ^Å[ÉtÉFÉCÉXÇÃÉÅÉ\ÉbÉhåQ
-//
-//				QueryInterface
-//				AddRef
-//				Release
-//
-/*-------------------------------------------------------------------------*/
-
-// QueryInterface
-STDMETHODIMP CShellExtClassFactory::QueryInterface(
-	REFIID		riid,
-	LPVOID *	ppv)
-{
-	dprintf(_T("CShellExtClassFactory::QueryInterface\n"));
-
-	HRESULT hr = E_NOINTERFACE;
-	*ppv = NULL;
-	if(IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, IID_IClassFactory))	{
-		*ppv = (LPCSHELLEXTCLASSFACTORY)this;
-		static_cast<IUnknown*>(*ppv)->AddRef();
-		hr = NOERROR;
+	if (dwReason == DLL_PROCESS_ATTACH) {
+		_wsetlocale(LC_ALL, L"");
+		g_hinst = hInstance;
+		DisableThreadLibraryCalls(hInstance);
 	}
-	return hr;
+	return TRUE;
 }
 
-// AddRef
-STDMETHODIMP_(ULONG) CShellExtClassFactory::AddRef()
+STDAPI DllCanUnloadNow()
 {
-	dprintf(_T("CShellExtClassFactory::AddRef (m_cRef=%d)\n"),m_cRef);
-
-	InterlockedIncrement(&m_cRef);
-	return m_cRef;
+	// Only allow the DLL to be unloaded after all outstanding references have been released
+	return (g_cRefModule == 0) ? S_OK : S_FALSE;
 }
 
-// Release
-STDMETHODIMP_(ULONG) CShellExtClassFactory::Release()
+void DllAddRef()
 {
-	dprintf(_T("CShellExtClassFactory::Release (m_cRef=%d)\n"),m_cRef);
-
-	ULONG theRef = InterlockedDecrement(&m_cRef);
-	if(theRef == 0L){
-		delete this;
-	}
-	return theRef;	// ÉçÅ[ÉJÉãïœêîÇégÇ¡ÇƒÇ¢ÇÈÇÃÇÕ delete å„Ç≈Ç‡ílÇï‘ÇπÇÈÇÊÇ§Ç…
+	InterlockedIncrement(&g_cRefModule);
 }
 
-/*-------------------------------------------------------------------------*/
-// CShellExtClassFactory	
-//
-//			IClassFactory ÉCÉìÉ^Å[ÉtÉFÉCÉXÇÃÉÅÉ\ÉbÉhåQ
-//
-//				CreateInstance
-//				LockServer
-//
-/*-------------------------------------------------------------------------*/
-
-// CreateInstance
-STDMETHODIMP CShellExtClassFactory::CreateInstance(LPUNKNOWN pUnkOuter,REFIID riid,LPVOID* ppv)
+void DllRelease()
 {
- 	dprintf(_T("CShellExtClassFactory::CreateInstance\n"));
+	InterlockedDecrement(&g_cRefModule);
+}
 
-	HRESULT hr = S_OK;
-	CMenuExtension* pShellExt = (CMenuExtension*)NULL;
+STDAPI DllRegisterServer()
+{
+	int count = 0;
+	if (S_OK == UtilRegisterServer(g_hinst, CLSID_LFContextMenu))count++;
+	if (S_OK == UtilRegisterServer(g_hinst, CLSID_LFDragMenu))count++;
+	return (count == 2) ? S_OK : E_FAIL;
+}
 
-	*ppv = NULL;
+STDAPI DllUnregisterServer()
+{
+	int count = 0;
+	if (S_OK == UtilUnregisterServer(CLSID_LFContextMenu))count++;
+	if (S_OK == UtilUnregisterServer(CLSID_LFDragMenu))count++;
+	return (count == 2) ? S_OK : E_FAIL;
+}
 
-	if(pUnkOuter != (LPUNKNOWN)NULL){
-		// ÉAÉOÉäÉQÅ[ÉVÉáÉìÇÉTÉ|Å[ÉgÇµÇ»Ç¢ÅB
-		hr = CLASS_E_NOAGGREGATION;
-	}
-	else{
-		// ÉRÉìÉ|Å[ÉlÉìÉgÇÃçÏê¨Ç∆èâä˙âªÇçsÇ§ÅB
-		pShellExt = new CMenuExtension(IsRightDrag);
-		if(NULL == pShellExt){
-    		hr = E_OUTOFMEMORY;
-			dprintf(_T("\tCreateInstance: new CMenuExtension = NULL\n"));
+
+//--------
+
+
+typedef HRESULT(*PFNCREATEINSTANCE)(REFIID riid, void** ppvObject);
+struct CLASS_OBJECT_INIT
+{
+	const CLSID* pClsid;
+	PFNCREATEINSTANCE pfnCreate;
+};
+
+// add classes supported by this module here
+const CLASS_OBJECT_INIT c_rgClassObjectInit[] =
+{
+	{ &CLSID_LFContextMenu, CreateInstance_ContextMenu},
+	{ &CLSID_LFDragMenu, CreateInstance_DragMenu },
+};
+
+class CLFClassFactory : public IClassFactory
+{
+public:
+	static HRESULT CreateInstance(REFCLSID clsid, const CLASS_OBJECT_INIT* pClassObjectInits, size_t cClassObjectInits, REFIID riid, void** ppv)
+	{
+		*ppv = NULL;
+		HRESULT hr = CLASS_E_CLASSNOTAVAILABLE;
+		for (size_t i = 0; i < cClassObjectInits; i++) {
+			if (clsid == *pClassObjectInits[i].pClsid) {
+				IClassFactory* pClassFactory = new (std::nothrow) CLFClassFactory(pClassObjectInits[i].pfnCreate);
+				hr = pClassFactory ? S_OK : E_OUTOFMEMORY;
+				if (SUCCEEDED(hr)) {
+					hr = pClassFactory->QueryInterface(riid, ppv);
+					pClassFactory->Release();
+				}
+				break; // match found
+			}
 		}
-		else{
-			dprintf(_T("\tCreateInstance: new CMenuExtension\n"));
+		return hr;
+	}
+
+	CLFClassFactory(PFNCREATEINSTANCE pfnCreate) : _cRef(1), _pfnCreate(pfnCreate) {
+		DllAddRef();
+	}
+
+	// IUnknown
+	IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv) {
+		static const QITAB qit[] =
+		{
+			QITABENT(CLFClassFactory, IClassFactory),
+			{ 0 }
+		};
+		return QISearch(this, qit, riid, ppv);
+	}
+
+	IFACEMETHODIMP_(ULONG) AddRef() {
+		return InterlockedIncrement(&_cRef);
+	}
+
+	IFACEMETHODIMP_(ULONG) Release() {
+		long cRef = InterlockedDecrement(&_cRef);
+		if (cRef == 0) {
+			delete this;
 		}
+		return cRef;
 	}
 
-	if(hr == S_OK){
-		// ÉCÉìÉ^Å[ÉtÉFÅ[ÉXÇóvãÅÇ∑ÇÈÅB
-		hr = pShellExt->QueryInterface(riid, ppv);
+	// IClassFactory
+	IFACEMETHODIMP CreateInstance(IUnknown* punkOuter, REFIID riid, void** ppv) {
+		return punkOuter ? CLASS_E_NOAGGREGATION : _pfnCreate(riid, ppv);
 	}
-	return hr;
-}
 
-// LockServer
-STDMETHODIMP CShellExtClassFactory::LockServer(BOOL fLock)
+	IFACEMETHODIMP LockServer(BOOL fLock) {
+		if (fLock) {
+			DllAddRef();
+		} else {
+			DllRelease();
+		}
+		return S_OK;
+	}
+
+private:
+	~CLFClassFactory() {
+		DllRelease();
+	}
+
+	long _cRef;
+	PFNCREATEINSTANCE _pfnCreate;
+};
+
+STDAPI DllGetClassObject(REFCLSID clsid, REFIID riid, void** ppv)
 {
-	dprintf(_T("CShellExtClassFactory::LockServer\n"));
-
-	UNREFERENCED_PARAMETER(fLock);
-	return NOERROR;
+	return CLFClassFactory::CreateInstance(
+		clsid,c_rgClassObjectInit, ARRAYSIZE(c_rgClassObjectInit), riid, ppv);
 }
+

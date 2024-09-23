@@ -1,8 +1,4 @@
-; ShellExtDLL : ƒŠƒ“ƒNƒpƒ‰ƒ[ƒ^‚ğéŒ¾
-; original file name : TfShell.def
-; Renamed and Modified : 2007.11.11 by Claybird <claybird.without.wing@gmail.com>
-
-LIBRARY      "ShellExtDLL64.DLL"
+ï»¿LIBRARY      "ShellExtDLL64.DLL"
 EXPORTS
     DllCanUnloadNow      PRIVATE
     DllGetClassObject    PRIVATE
