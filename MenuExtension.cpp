@@ -230,19 +230,11 @@ const std::vector<SHELL_MENU_ITEM> g_contextMenu = {
 	{IDS_PROGRAM_NAME, L"", g_contextMenuSub},
 };
 
-const std::vector<SHELL_MENU_ITEM> g_other_operations_dnd = {
-	{ IDS_MENU_CAPTION_EXTRACT_NORMAL, L"/e"},
-	{ IDS_MENU_CAPTION_EXTRACT_DESKTOP,L"/e /od" },
-	{ IDS_MENU_CAPTION_EXTRACT_SAME,L"/e /os" },
-	{ IDS_MENU_CAPTION_EXTRACT_TARGET,L"/e /oa" },
-};
-
 const std::vector<SHELL_MENU_ITEM> g_dragMenuSub = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
-	{IDS_MENU_CAPTION_EXTRACT_NORMAL,L"/e"},
-	{IDS_MENU_CAPTION_OPERATION, L"", g_other_operations_dnd},
+	{IDS_MENU_CAPTION_EXTRACT_DRAG,L"/e"},
 };
 
 const std::vector<SHELL_MENU_ITEM> g_dragMenu = {
@@ -409,6 +401,7 @@ private:
 		std::wstring strCommandLine;
 		strCommandLine += arg;
 		if (!_isContextMenu) {
+			//drag & drop
 			strCommandLine += L" /o:\"";
 			strCommandLine += _targetFolder.make_preferred().wstring();
 			strCommandLine += L"\" ";
