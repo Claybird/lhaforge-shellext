@@ -2,6 +2,7 @@
 
 #include "priv.h"
 #include "resource.h"
+#include <SimpleIni.h>
 
 
 //loads string from resource
@@ -218,6 +219,7 @@ const std::vector<SHELL_MENU_ITEM> g_other_operations = {
 	{ IDS_MENU_CAPTION_LIST, L"/l"},
 };
 
+//default
 const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
@@ -226,26 +228,126 @@ const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
 	{IDS_MENU_CAPTION_OPERATION, L"", g_other_operations},
 };
 
-const std::vector<SHELL_MENU_ITEM> g_contextMenu = {
-	{IDS_PROGRAM_NAME, L"", g_contextMenuSub},
+//OneRootUnifyOperations
+const std::vector<SHELL_MENU_ITEM> g_contextMenuSub_unified = {
+	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
+
+	{IDS_MENU_CAPTION_EXTRACT_NORMAL, L"/e"},
+	{IDS_MENU_CAPTION_EXTRACT_DESKTOP,L"/e /od" },
+	{IDS_MENU_CAPTION_EXTRACT_SAME,L"/e /os" },
+	{IDS_MENU_CAPTION_EXTRACT_TARGET,L"/e /oa" },
+	{IDS_MENU_CAPTION_TEST_ARCHIVE, L"/t"},
+	{IDS_MENU_CAPTION_LIST, L"/l"},
 };
+
+//Conventional
+const std::vector<SHELL_MENU_ITEM> g_contextMenuConventionalCompress = {
+	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
+};
+
+const std::vector<SHELL_MENU_ITEM> g_contextMenuConventionalExtract = {
+	{IDS_MENU_CAPTION_EXTRACT_NORMAL, L"/e"},
+	{IDS_MENU_CAPTION_EXTRACT_DESKTOP,L"/e /od" },
+	{IDS_MENU_CAPTION_EXTRACT_SAME,L"/e /os" },
+	{IDS_MENU_CAPTION_EXTRACT_TARGET,L"/e /oa" },
+};
+
+const std::vector<SHELL_MENU_ITEM> g_contextMenuConventionalOperations = {
+	{IDS_MENU_CAPTION_LIST, L"/l"},
+	{IDS_MENU_CAPTION_TEST_ARCHIVE, L"/t"},
+};
+
+const std::vector<SHELL_MENU_ITEM> g_contextMenuConventional = {
+	{IDS_MENU_CAPTION_COMPRESS_ROOT, L"", g_contextMenuConventionalCompress},
+	{IDS_MENU_CAPTION_EXTRACT_ROOT, L"", g_contextMenuConventionalExtract},
+	{IDS_MENU_CAPTION_OPERATION_ROOT,L"", g_contextMenuConventionalOperations },
+};
+
 
 const std::vector<SHELL_MENU_ITEM> g_dragMenuSub = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_PASS, L"/c:zippass"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
 	{IDS_MENU_CAPTION_EXTRACT_DRAG,L"/e"},
 };
 
-const std::vector<SHELL_MENU_ITEM> g_dragMenu = {
-	{IDS_PROGRAM_NAME, L"", g_dragMenuSub},
-};
+std::filesystem::path getIniPath() 
+{
+	const wchar_t* INI_FILE_NAME = L"LhaForge.ini";
+	const wchar_t* PROGRAMDIR_NAME = L"LhaForge2";	//directory name in ApplicationData
+
+	//user common configuration
+	{
+		//.ini file is in same as the executable; for portable usage
+		auto candidate = UtilGetModulePath(g_hinst).parent_path() / INI_FILE_NAME;
+		if (std::filesystem::is_regular_file(candidate)) {
+			return candidate;
+		}
+	}
+	{
+		//.ini is in FOLDERID_ProgramData (formerly CSIDL_COMMON_APPDATA)
+		wchar_t* ptr = nullptr;
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_ProgramData, 0, nullptr, &ptr))) {
+			auto candidate = std::filesystem::path(ptr) / PROGRAMDIR_NAME / INI_FILE_NAME;
+			CoTaskMemFree(ptr);
+			if (std::filesystem::is_regular_file(candidate)) {
+				return candidate;
+			}
+		}
+	}
+
+	//--------------------
+	//user specific configuration
+	{
+		//.ini is in FOLDERID_RoamingAppData (formerly CSIDL_APPDATA)
+		wchar_t* ptr = nullptr;
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &ptr))) {
+			auto candidate = std::filesystem::path(ptr) / PROGRAMDIR_NAME / INI_FILE_NAME;
+			CoTaskMemFree(ptr);
+			return candidate;
+		}
+	}
+
+	//default fallback
+	return UtilGetTemporaryFileName();
+}
 
 class CLFMenuExtension : public IContextMenu, public IShellExtInit
 {
+	enum class MODE {
+		Default,	//LhaForge->{zip/other_formats/extract/other_operations}
+		OneRootUnifyOperations,	//LhaForge->{zip/other_formats/extract/test/etc.}
+		Conventional,	//{Compress}/{Extract}/{Operations}; similar to LhaForge Ver.1.6.7
+	};
+	//----------------
+	const bool _isContextMenu;
+	MODE _menuMode = MODE::Default;
+	long        _cRef;
+	std::filesystem::path _targetFolder;	//drop target
+	IDataObject* _pdtobj;       // data object
+
+	std::vector<std::wstring> _cmdArgs;
 public:
 	CLFMenuExtension(bool isContextMenu) : _cRef(1), _pdtobj(NULL), _isContextMenu(isContextMenu) {
 		DllAddRef();
+		CSimpleIniW ini;
+		ini.SetUnicode(true);
+
+		ini.LoadFile(getIniPath().c_str());
+		switch (ini.GetLongValue(L"ShellExt", L"MenuMode", 0)) {
+		case 2:
+			_menuMode = MODE::Conventional;
+			break;
+		case 1:
+			_menuMode = MODE::OneRootUnifyOperations;
+			break;
+		case 0:
+		default:
+			_menuMode = MODE::Default;
+		}
 	}
 
 	// IUnknown methods
@@ -288,7 +390,24 @@ public:
 			return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
 		}
 
-		int numItems = _insertMenuItems(hMenu, idCmdFirst, _isContextMenu ? g_contextMenu : g_dragMenu);
+		std::vector<SHELL_MENU_ITEM> menuItems;
+		if (_isContextMenu) {
+			switch(_menuMode) {
+			case MODE::Conventional:
+				menuItems = g_contextMenuConventional;
+				break;
+			case MODE::OneRootUnifyOperations:
+				menuItems.push_back({ IDS_PROGRAM_NAME, L"", g_contextMenuSub_unified });
+				break;
+			case MODE::Default:
+			default:
+				menuItems.push_back({ IDS_PROGRAM_NAME, L"", g_contextMenuSub });
+				break;
+			}
+		} else {
+			menuItems.push_back({ IDS_PROGRAM_NAME, L"", g_dragMenuSub });
+		}
+		int numItems = _insertMenuItems(hMenu, idCmdFirst, menuItems);
 
 		/*
 		 * From MSDN:
@@ -427,13 +546,6 @@ private:
 		UtilExecuteCommand(exePath, strCommandLine);
 	}
 
-	//----------------
-	const bool _isContextMenu;
-	long        _cRef;
-	std::filesystem::path _targetFolder;	//drop target
-	IDataObject* _pdtobj;       // data object
-
-	std::vector<std::wstring> _cmdArgs;
 };
 
 
