@@ -222,6 +222,7 @@ const std::vector<SHELL_MENU_ITEM> g_other_operations = {
 //default
 const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_PASS_ROOT,L"/c:zippass"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL,L"/e"},
@@ -231,6 +232,7 @@ const std::vector<SHELL_MENU_ITEM> g_contextMenuSub = {
 //OneRootUnifyOperations
 const std::vector<SHELL_MENU_ITEM> g_contextMenuSub_unified = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_PASS_ROOT,L"/c:zippass"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 
 	{IDS_MENU_CAPTION_EXTRACT_NORMAL, L"/e"},
@@ -244,6 +246,7 @@ const std::vector<SHELL_MENU_ITEM> g_contextMenuSub_unified = {
 //Conventional
 const std::vector<SHELL_MENU_ITEM> g_contextMenuConventionalCompress = {
 	{IDS_MENU_ITEM_CAPTION_ZIP_ROOT, L"/c:zip"},
+	{IDS_MENU_ITEM_CAPTION_ZIP_PASS_ROOT,L"/c:zippass"},
 	{IDS_MENU_CAPTION_OTHER_FORMATS, L"", g_other_formats},
 };
 
